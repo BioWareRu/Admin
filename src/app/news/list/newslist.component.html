@@ -1,0 +1,49 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-icon" data-background-color="rose">
+            <i class="material-icons">assignment</i>
+          </div>
+          <div class="card-content">
+            <h4 class="card-title">Новости</h4>
+            <div class="content table-responsive">
+              <table class="table">
+                <thead class="text-primary">
+                <tr>
+                  <th><a (click)="applySort('id')">#</a></th>
+                  <th><a (click)="applySort('title')">Заголовок</a></th>
+                  <th><a (click)="applySort('date')">Дата</a></th>
+                  <th>Раздел</th>
+                  <th><a (click)="applySort('authorId')">Автор</a></th>
+                  <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr
+                  *ngFor="let newsItem of items | async | paginate: { id: 'server', itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }">
+                  <td>{{newsItem.id}}</td>
+                  <td><a [routerLink]="['/news', newsItem.id, 'edit']">{{newsItem.title}}</a></td>
+                  <td>{{(newsItem.date| amFromUnix) | amTimeAgo}}</td>
+                  <td>{{newsItem.parentName}}</td>
+                  <td>{{newsItem.authorName}}</td>
+                  <td><a href="{{newsItem.publicUrl}}"><i class="material-icons">pageview</i></a></td>
+                </tr>
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <pagination-controls (pageChange)="load($event)" id="server" previousLabel="Назад"
+                               nextLabel="Вперёд"></pagination-controls>
+        </div>
+        <div [hidden]="dataLoaded">
+          Загрузка данных
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
