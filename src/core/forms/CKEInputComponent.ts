@@ -6,7 +6,7 @@ import { FormInput } from './FormInput';
 })
 export class CKEInputComponent extends FormInput {
   public config = {
-    uiColor: '#00abff',
+    uiColor: '#2979ff',
     height: '600',
     extraAllowedContent: true,
     customConfig: '',

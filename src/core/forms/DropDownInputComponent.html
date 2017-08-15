@@ -4,7 +4,7 @@
     <div class="form-group label-floating is-empty"
          [ngClass]="{'invalid': !Control.valid, 'second': true, 'third': false}">
       <label class="control-label"></label>
-      <select [formControlName]="FieldName" class="form-control">
+      <select [formControlName]="FieldName" class="form-control" [compareWith]="compareModels.bind(this)">
         <optgroup *ngFor="let optGroup of OptGroups" label="{{optGroup.label}}">
           <option *ngFor="let option of optGroup.options" [ngValue]="option">{{option.title}}</option>
         </optgroup>

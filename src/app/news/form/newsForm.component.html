@@ -1,6 +1,6 @@
 <div class="main-content">
   <div class="container-fluid">
-    <div class="row">
+    <div class="row" *ngIf="formInited">
       <div class="col-md-12">
         <div class="card">
           <form class="form-horizontal" [formGroup]="reactiveFormGroup">
@@ -11,7 +11,7 @@
               <text-input [FormGroup]="reactiveFormGroup" [FieldName]="'title'"
                           [Label]="'Название новости'"></text-input>
               <drop-down-input [FormGroup]="reactiveFormGroup" [FieldName]="'parent'" [Label]="'Раздел'"
-                               [OptGroups]="parentOptGroups"></drop-down-input>
+                               [OptGroups]="parentOptGroups" [Comparator]="compareParents"></drop-down-input>
               <text-input [FormGroup]="reactiveFormGroup" [FieldName]="'url'" [Label]="'Адрес'"></text-input>
               <text-input [FormGroup]="reactiveFormGroup" [FieldName]="'source'" [Label]="'Источник'"></text-input>
               <cke-input [FormGroup]="reactiveFormGroup" [FieldName]="'shortText'"
