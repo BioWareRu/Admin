@@ -1,0 +1,15 @@
+<div class="row" [formGroup]="FormGroup">
+  <label class="col-sm-2 label-on-left">{{Label}}</label>
+  <div class="col-sm-10">
+    <div class="form-group label-floating is-empty"
+         [ngClass]="{'invalid': !Control.valid, 'second': true, 'third': false}">
+      <label class="control-label"></label>
+      <select [formControlName]="FieldName" class="form-control">
+        <optgroup *ngFor="let optGroup of OptGroups" label="{{optGroup.label}}">
+          <option *ngFor="let option of optGroup.options" [ngValue]="option">{{option.title}}</option>
+        </optgroup>
+      </select>
+      <errorsList [hidden]="Control.valid" [Errors]="ErrorsList"></errorsList>
+    </div>
+  </div>
+</div>

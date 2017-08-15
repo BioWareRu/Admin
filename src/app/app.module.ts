@@ -19,11 +19,15 @@ import {DevelopersService} from '../services/DevelopersService';
 import {GamesService} from '../services/GamesService';
 import {ArticlesService} from '../services/ArticlesService';
 import 'moment/locale/ru';
+import {TextInputComponent} from "../core/forms/TextInputComponent";
+import {ErrorsListComponent} from "../core/forms/ErrorsListComponent";
 
 @NgModule({
   declarations: [
     AppComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
+    //TextInputComponent,
+    //ErrorsListComponent
   ],
   imports: [
     BrowserModule,

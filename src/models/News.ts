@@ -1,64 +1,45 @@
-import { Parent, ParentType } from './Parent';
-import { Game } from './Game';
-import { Developer } from './Developer';
-import { Topic } from './Topic';
-import { JsonProperty } from 'json-typescript-mapper';
+import {Parent, ParentType} from './Parent';
+import {Game} from './Game';
+import {Developer} from './Developer';
+import {Topic} from './Topic';
+import {JsonProperty} from 'json-object-mapper';
+import {forEach} from "@angular/router/src/utils/collection";
 
 export class News {
-  @JsonProperty('id')
-  public id: number;
-  @JsonProperty('url')
-  public url: string;
-  @JsonProperty('source')
-  public source: string;
-  @JsonProperty('title')
-  public title: string;
-  @JsonProperty('shortText')
-  public shortText: string;
-  @JsonProperty('addText')
-  public addText: string;
-  @JsonProperty('sticky')
-  public sticky: number;
-  @JsonProperty('date')
-  public date: number;
-  @JsonProperty('lastChangeDate')
-  public lastChangeDate: number;
-  @JsonProperty('pub')
-  public pub: number;
-  @JsonProperty('gameId')
-  public gameId: number;
-  @JsonProperty('developerId')
-  public developerId: number;
-  @JsonProperty('topicId')
-  public topicId: number;
-  @JsonProperty('authorId')
-  public authorId: number;
-  @JsonProperty('authorName')
-  public authorName: string;
-  @JsonProperty('parentName')
-  public parentName: string;
-  @JsonProperty('publicUrl')
-  public publicUrl: string;
-
-  constructor() {
-    this.id = undefined;
-    this.url = undefined;
-    this.source = undefined;
-    this.title = undefined;
-    this.shortText = undefined;
-    this.addText = undefined;
-    this.sticky = undefined;
-    this.date = undefined;
-    this.lastChangeDate = undefined;
-    this.pub = undefined;
-    this.gameId = undefined;
-    this.developerId = undefined;
-    this.topicId = undefined;
-    this.authorId = undefined;
-    this.authorName = undefined;
-    this.parentName = undefined;
-    this.publicUrl = undefined;
-  }
+  @JsonProperty()
+  public id: number = undefined;
+  @JsonProperty()
+  public url: string = undefined;
+  @JsonProperty()
+  public source: string = undefined;
+  @JsonProperty()
+  public title: string = undefined;
+  @JsonProperty()
+  public shortText: string = undefined;
+  @JsonProperty()
+  public addText: string = undefined;
+  @JsonProperty()
+  public sticky: number = undefined;
+  @JsonProperty()
+  public date: number = undefined;
+  @JsonProperty()
+  public lastChangeDate: number = undefined;
+  @JsonProperty()
+  public pub: number = undefined;
+  @JsonProperty()
+  public gameId: number = undefined;
+  @JsonProperty()
+  public developerId: number = undefined;
+  @JsonProperty()
+  public topicId: number = undefined;
+  @JsonProperty()
+  public authorId: number = undefined;
+  @JsonProperty()
+  public authorName: string = undefined;
+  @JsonProperty()
+  public parentName: string = undefined;
+  @JsonProperty()
+  public publicUrl: string = undefined;
 
   get parent(): Parent {
     if (this.gameId > 0) {

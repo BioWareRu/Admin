@@ -15,12 +15,12 @@ export abstract class BaseService<T> {
     // console.log(this.dataObjectClass);
     // console.log(this.listDataObjectClass);
     return this.httpClient.get(resource, {limit: perPage, offset: perPage * (page - 1), order: sort})
-      .map((res: Response) => /*deserialize(this.listDataObjectClass, res.json())*/res.json());
+      /*.map((res: Response) => /!*deserialize(this.listDataObjectClass, res.json())*!/res.json())*/;
   }
 
-  public getOne(resource: string, id: number): Observable<T> {
+  public getOne(resource: string, id: number) {
     return this.httpClient.get(resource + '/' + id, {})
-      .map((res: Response) => /*deserialize(this.dataObjectClass, res.json())*/res.json());
+     /* .map((res: Response) => /!*deserialize(this.dataObjectClass, res.json())*!/res.json())*/;
   }
 
   public doAdd<TResult>(resource: string, item: T): Observable<TResult> {

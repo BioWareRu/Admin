@@ -1,56 +1,41 @@
 import {Parent, ParentType} from './Parent';
-import {JsonProperty} from 'json-typescript-mapper';
+import {JsonProperty} from 'json-object-mapper';
 
 export class Game extends Parent {
   @JsonProperty('id')
-  public id: number;
+  public id: number = undefined;
   public type: ParentType;
   @JsonProperty('developerId')
-  public developerId: number;
+  public developerId: number = undefined;
   @JsonProperty('url')
-  public url: string;
+  public url: string = undefined;
   @JsonProperty('title')
-  public title: string;
+  public title: string = undefined;
   @JsonProperty('adminTitle')
-  public adminTitle: string;
+  public adminTitle: string = undefined;
   @JsonProperty('genre')
-  public genre: string;
+  public genre: string = undefined;
   @JsonProperty('releaseDate')
-  public releaseDate: string;
+  public releaseDate: string = undefined;
   @JsonProperty('platfroms')
-  public platfroms: string;
+  public platfroms: string = undefined;
   @JsonProperty('desc')
-  public desc: string;
+  public desc: string = undefined;
   @JsonProperty('publisher')
-  public publisher: string;
+  public publisher: string = undefined;
   @JsonProperty('localizator')
-  public localizator: string;
+  public localizator: string = undefined;
   @JsonProperty('logo')
-  public logo: string;
+  public logo: string = undefined;
   @JsonProperty('smallLogo')
-  public smallLogo: string;
+  public smallLogo: string = undefined;
   @JsonProperty('tweetTag')
-  public tweetTag: string;
-  @JsonProperty('id')
-  public info: string;
+  public tweetTag: string = undefined;
+  @JsonProperty('info')
+  public info: string = undefined;
 
   public constructor() {
     super(ParentType.Game);
-    this.id = undefined;
-    this.developerId = undefined;
-    this.url = undefined;
-    this.title = undefined;
-    this.adminTitle = undefined;
-    this.genre = undefined;
-    this.releaseDate = undefined;
-    this.platfroms = undefined;
-    this.desc = undefined;
-    this.publisher = undefined;
-    this.localizator = undefined;
-    this.logo = undefined;
-    this.smallLogo = undefined;
-    this.tweetTag = undefined;
-    this.info = undefined;
   }
 
   public getParentOption() {

@@ -4,10 +4,10 @@ import {Observable} from 'rxjs/Rx';
 export class ListComponent<T> {
 
   public currentPage = 1;
-  public itemsPerPage: number = 10;
-  public totalItems: number = 0;
+  public itemsPerPage = 10;
+  public totalItems = 0;
   public dataLoaded = false;
-  protected sort: string = '-id';
+  protected sort = '-id';
 
   private items: Observable<T[]>;
 

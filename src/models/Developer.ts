@@ -1,41 +1,32 @@
 import { Parent, ParentType } from './Parent';
-import { JsonProperty } from 'json-typescript-mapper';
+import {JsonProperty} from 'json-object-mapper';
+
 export class Developer extends Parent {
 
   @JsonProperty('id')
-  public id: number;
+  public id: number = undefined;
   public type: ParentType;
   @JsonProperty('url')
-  public url: string;
+  public url: string = undefined;
   @JsonProperty('name')
-  public name: string;
+  public name: string = undefined;
   @JsonProperty('info')
-  public info: string;
+  public info: string = undefined;
   @JsonProperty('desc')
-  public desc: string;
+  public desc: string = undefined;
   @JsonProperty('logo')
-  public logo: string;
+  public logo: string = undefined;
   @JsonProperty('foundYear')
-  public foundYear: number;
+  public foundYear: number = undefined;
   @JsonProperty('location')
-  public location: string;
+  public location: string = undefined;
   @JsonProperty('peoples')
-  public peoples: string;
+  public peoples: string = undefined;
   @JsonProperty('site')
-  public site: string;
+  public site: string = undefined;
 
   public constructor() {
     super(ParentType.Developer);
-    this.id = undefined;
-    this.url = undefined;
-    this.name = undefined;
-    this.info = undefined;
-    this.desc = undefined;
-    this.logo = undefined;
-    this.foundYear = undefined;
-    this.location = undefined;
-    this.peoples = undefined;
-    this.site = undefined;
   }
 
   public getParentOption() {

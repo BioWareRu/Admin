@@ -1,9 +1,9 @@
 import { ListResult } from '../core/ListResult';
-import { JsonProperty } from 'json-typescript-mapper';
+import { JsonProperty } from 'json-object-mapper';
 import { Topic } from '../models/Topic';
 export class TopicListResult extends ListResult<Topic> {
 
-  @JsonProperty({clazz: Topic, name: 'data'})
+  @JsonProperty({type: Topic, name: 'data'})
   public data: Topic[];
 
   constructor() {

@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { BaseService } from '../core/BaseService';
-import { HttpClient } from '../core/HttpClient';
-import { ListResult } from '../core/ListResult';
-import { Game } from '../models/Game';
-import { GamesListResult } from '../results/GamesListResult';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Rx';
+import {BaseService} from '../core/BaseService';
+import {HttpClient} from '../core/HttpClient';
+import {Game} from '../models/Game';
+import {GamesListResult} from '../results/GamesListResult';
+import {ObjectMapper} from 'json-object-mapper';
+import deserialize = ObjectMapper.deserialize;
 
 @Injectable()
 export class GamesService extends BaseService<Game> {
@@ -14,11 +15,11 @@ export class GamesService extends BaseService<Game> {
   }
 
   public getList(page: number = 1, perPage: number = 10, sort: string = '-id'): Observable<GamesListResult> {
-    return this.getAll('games', page, perPage, sort);
+    return this.getAll('games', page, perPage, sort).map((res: Response) => deserialize(GamesListResult, res.json()));
   }
 
-  public get(id: number): Observable<Game> {
-    return this.getOne('games', id);
+  public get (id: number): Observable<Game> {
+    return this.getOne('games', id).map((res: Response) => deserialize(Game, res.json()));
   }
 
   public add(item: Game): Observable<Game> {

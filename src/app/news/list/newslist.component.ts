@@ -17,7 +17,5 @@ export class NewsListComponent extends ListComponent<News> implements OnInit {
 
   public ngOnInit() {
     this.load(this.currentPage);
-
-    console.log('hello `News` component');
   }
 }

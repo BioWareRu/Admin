@@ -1,4 +1,4 @@
-import { JsonProperty } from 'json-typescript-mapper';
+import { JsonProperty } from 'json-object-mapper';
 export class ListResult<T> {
   public data: T[];
 

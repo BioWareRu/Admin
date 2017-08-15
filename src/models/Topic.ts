@@ -1,26 +1,20 @@
 import { Parent, ParentType } from './Parent';
-import { JsonProperty } from 'json-typescript-mapper';
+import {JsonProperty} from 'json-object-mapper';
 export class Topic extends Parent {
   @JsonProperty('id')
-  public id: number;
+  public id: number = undefined;
   public type: ParentType;
   @JsonProperty('title')
-  public title: string;
+  public title: string = undefined;
   @JsonProperty('url')
-  public url: string;
+  public url: string = undefined;
   @JsonProperty('logo')
-  public logo: string;
+  public logo: string = undefined;
   @JsonProperty('desc')
-  public desc: string;
+  public desc: string = undefined;
 
   public constructor() {
     super(ParentType.Topic);
-
-    this.id = undefined;
-    this.title = undefined;
-    this.url = undefined;
-    this.logo = undefined;
-    this.desc = undefined;
   }
 
   public getParentOption() {
