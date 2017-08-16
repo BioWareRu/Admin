@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { ErrorsListComponent } from './ErrorsListComponent';
 import { TextInputComponent } from './TextInputComponent';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { DropDownInputComponent } from './DropDownInputComponent';
 import { CKEInputComponent } from './CKEInputComponent';
+
 @NgModule({
   declarations: [
     ErrorsListComponent,
@@ -23,6 +24,7 @@ import { CKEInputComponent } from './CKEInputComponent';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     CKEditorModule
   ]
 })

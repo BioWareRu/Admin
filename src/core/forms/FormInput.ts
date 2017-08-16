@@ -3,7 +3,7 @@ import {AbstractControl, FormGroup} from '@angular/forms';
 
 export abstract class FormInput implements OnInit {
 
-  private Control: AbstractControl;
+  public Control: AbstractControl;
 
   @Input() public Errors: string[];
   @Input() public FieldName: string;

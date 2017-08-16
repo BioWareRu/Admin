@@ -8,20 +8,13 @@ import {Repository} from '../../core/Repository';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {MomentModule} from 'angular2-moment';
 import {NewsFormComponent} from './form/newsForm.component';
-import {TextInputComponent} from "../../core/forms/TextInputComponent";
-import {ErrorsListComponent} from "../../core/forms/ErrorsListComponent";
-import {CKEInputComponent} from "../../core/forms/CKEInputComponent";
-import {CKEditorModule} from "ng2-ckeditor";
-import {DropDownInputComponent} from "../../core/forms/DropDownInputComponent";
+import {CKEditorModule} from 'ng2-ckeditor';
+import {BioFormsModule} from '../../core/forms/FormsModule';
 
 @NgModule({
   declarations: [
     NewsListComponent,
-    NewsFormComponent,
-    TextInputComponent,
-    ErrorsListComponent,
-    CKEInputComponent,
-    DropDownInputComponent
+    NewsFormComponent
   ],
   providers: [
     Repository
@@ -33,7 +26,8 @@ import {DropDownInputComponent} from "../../core/forms/DropDownInputComponent";
     RouterModule.forChild(NewsRoutes),
     MomentModule,
     NgxPaginationModule,
-    CKEditorModule
+    CKEditorModule,
+    BioFormsModule
   ]
 })
 export class NewsModule {

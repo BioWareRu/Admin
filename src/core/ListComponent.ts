@@ -9,7 +9,7 @@ export class ListComponent<T> {
   public dataLoaded = false;
   protected sort = '-id';
 
-  private items: Observable<T[]>;
+  public items: Observable<T[]>;
 
   constructor(private service: BaseService<T>) {
   }
@@ -23,9 +23,8 @@ export class ListComponent<T> {
     this.load(this.currentPage);
   }
 
-  protected load(page: number) {
+  public load(page: number) {
     this.items = this.service.getList(page, this.itemsPerPage, this.sort).do((res) => {
-      console.log(res);
       this.totalItems = res.totalItems;
       this.currentPage = page;
       this.dataLoaded = true;
