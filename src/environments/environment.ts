@@ -5,6 +5,6 @@
 
 export const environment = {
     production: false,
-    apiUrl: 'http://localhost:5001/api/',
+    apiUrl: 'http://localhost:5001/v1/',
     oauthClientId: '1ac1047fb3861d96c971'
 };
