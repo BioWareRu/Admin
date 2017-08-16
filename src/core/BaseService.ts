@@ -23,21 +23,21 @@ export abstract class BaseService<T> {
      /* .map((res: Response) => /!*deserialize(this.dataObjectClass, res.json())*!/res.json())*/;
   }
 
-  public doAdd<TResult>(resource: string, item: any): Observable<TResult> {
+  public doAdd(resource: string, item: any) {
     return this.httpClient.post(resource, item)
-      .map((res: Response) => res.json());
+      /*.map((res: Response) => res.json())*/;
   }
 
-  public doUpdate<TResult>(resource: string, id: number, item: any): Observable<TResult> {
+  public doUpdate(resource: string, id: number, item: any) {
     return this.httpClient.put(resource + '/' + id, item)
-      .map((res: Response) => res.json());
+      /*.map((res: Response) => res.json())*/;
   }
 
   public abstract getList(page: number, perPage: number, sort: string): Observable<ListResult<T>>;
 
   public abstract get (id: number): Observable<T>;
 
-  public abstract add<TResult>(item: T): Observable<TResult>;
+  public abstract add(item: any): Observable<any>;
 
-  public abstract update<TResult>(id: number, item: T): Observable<TResult>;
+  public abstract update(id: number, item: any): Observable<any>;
 }
