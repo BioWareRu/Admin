@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Http, RequestOptionsArgs, Headers } from '@angular/http';
-import { UserService } from '../services/UserService';
-import { Observable } from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
+import {Http, RequestOptionsArgs, Headers} from '@angular/http';
+import {UserService} from '../services/UserService';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class HttpClient {
@@ -22,7 +22,7 @@ export class HttpClient {
   constructor(private http: Http, private userService: UserService) {
   }
 
-  public get(resource, params) {
+  public get (resource, params) {
     return this.http.get(this.getUrl(resource, params), this.getRequestOptions())
       .catch((error: any) => {
         if (error.status === 401) {
@@ -35,6 +35,7 @@ export class HttpClient {
   public post(resource, data) {
     let headers = new Headers();
     this.createAuthorizationHeader(headers);
+    console.log(this.getUrl(resource), headers, data);
     return this.http.post(this.getUrl(resource), data, this.getRequestOptions());
   }
 

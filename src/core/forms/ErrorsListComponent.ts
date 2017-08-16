@@ -1,32 +1,23 @@
 import {Component, Input} from '@angular/core';
-import {ValidationErrors} from '@angular/forms';
+import {BioFormControl} from './BioFormControl';
 
 @Component({
-    selector: 'errorsList',
-    template: `
-        <div *ngIf="Errors.Errors">
-            <div *ngIf="Errors.Errors['required']" class="control-error">
-                Поле обязательно для заполнения
-            </div>
+  selector: 'errorsList',
+  template: `
+    <div [hidden]="Control.valid && !Control.ServerErrors">
+      <div *ngIf="Control.errors">
+        <div *ngIf="Control.errors['required']" class="control-error">
+          Поле обязательно для заполнения
         </div>
-        <div *ngIf="Errors.ServerErrors">
-            <div *ngFor="let e of Errors.ServerErrors" class="control-error">
-                {{e}}
-            </div>
+      </div>
+      <div>
+        <div *ngFor="let e of Control.ServerErrors" class="control-error">
+          {{e}}
         </div>
-    `
+      </div>
+    </div>
+  `
 })
 export class ErrorsListComponent {
-    @Input() public Errors: ErrorsList;
-}
-
-export class ErrorsList {
-    public Errors: ValidationErrors;
-    public ServerErrors: string[] = [];
-
-    constructor(errors: ValidationErrors, serverErrors: string[]) {
-        this.Errors = errors;
-        this.ServerErrors = serverErrors;
-        console.log(this.Errors, this.ServerErrors);
-    }
+  @Input() public Control: BioFormControl;
 }

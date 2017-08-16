@@ -23,12 +23,12 @@ export abstract class BaseService<T> {
      /* .map((res: Response) => /!*deserialize(this.dataObjectClass, res.json())*!/res.json())*/;
   }
 
-  public doAdd<TResult>(resource: string, item: T): Observable<TResult> {
+  public doAdd<TResult>(resource: string, item: any): Observable<TResult> {
     return this.httpClient.post(resource, item)
       .map((res: Response) => res.json());
   }
 
-  public doUpdate<TResult>(resource: string, id: number, item: T): Observable<TResult> {
+  public doUpdate<TResult>(resource: string, id: number, item: any): Observable<TResult> {
     return this.httpClient.put(resource + '/' + id, item)
       .map((res: Response) => res.json());
   }

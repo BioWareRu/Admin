@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { FormInput } from './FormInput';
+import {Component} from '@angular/core';
+import {FormInput} from './FormInput';
+
 @Component({
   selector: 'cke-input',
   templateUrl: './CKEInputComponent.html'
@@ -20,6 +21,10 @@ export class CKEInputComponent extends FormInput {
       {name: 'styles', items: ['Format', 'Font', 'FontSize']},
       {name: 'colors', items: ['TextColor', 'BGColor']},
       {name: 'tools', items: ['Maximize', 'Source']},
-    ]
+    ],
+    filebrowserBrowseUrl: 'https://images.bioware.ru/ckfinder/ckfinder.html',
+    filebrowserUploadUrl: 'https://images.bioware.ru/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+    filebrowserWindowWidth: '1000',
+    filebrowserWindowHeight: '700'
   };
 }

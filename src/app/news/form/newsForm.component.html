@@ -8,6 +8,14 @@
               <h4 class="card-title">{{news.title}}</h4>
             </div>
             <div class="card-content">
+              <div class="row">
+                <label class="col-md-2"></label>
+                <div class="col-md-10">
+                  <div class="form-group form-button">
+                    <button (click)="save()" [disabled]="reactiveFormGroup.invalid" class="btn btn-fill btn-rose">Сохранить</button>
+                  </div>
+                </div>
+              </div>
               <text-input [FormGroup]="reactiveFormGroup" [FieldName]="'title'"
                           [Label]="'Название новости'"></text-input>
               <drop-down-input [FormGroup]="reactiveFormGroup" [FieldName]="'parent'" [Label]="'Раздел'"
@@ -22,7 +30,7 @@
                 <label class="col-md-2"></label>
                 <div class="col-md-10">
                   <div class="form-group form-button">
-                    <button class="btn btn-fill btn-rose">Сохранить</button>
+                    <button (click)="save()" class="btn btn-fill btn-rose">Сохранить</button>
                   </div>
                 </div>
               </div>

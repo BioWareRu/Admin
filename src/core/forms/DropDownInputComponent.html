@@ -9,7 +9,7 @@
           <option *ngFor="let option of optGroup.options" [ngValue]="option">{{option.title}}</option>
         </optgroup>
       </select>
-      <errorsList [hidden]="Control.valid" [Errors]="ErrorsList"></errorsList>
+      <errorsList [Control]="Control"></errorsList>
     </div>
   </div>
 </div>

@@ -5,7 +5,7 @@
          [ngClass]="{'invalid': !Control.valid, 'second': true, 'third': false}">
       <label class="control-label"></label>
       <input [formControlName]="FieldName" class="form-control" type="{{Type}}"/>
-      <errorsList [hidden]="Control.valid" [Errors]="ErrorsList"></errorsList>
+      <errorsList [Control]="Control"></errorsList>
     </div>
   </div>
 

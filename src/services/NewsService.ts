@@ -6,6 +6,7 @@ import {HttpClient} from '../core/HttpClient';
 import {NewsListResult} from '../results/NewsListResult';
 import {ObjectMapper} from 'json-object-mapper';
 import deserialize = ObjectMapper.deserialize;
+import {NewsFormModel} from "../app/news/models/NewsFormModel";
 
 @Injectable()
 export class NewsService extends BaseService<News> {
@@ -22,11 +23,11 @@ export class NewsService extends BaseService<News> {
     return this.getOne('news', id).map((res: Response) => deserialize(News, res.json()));
   }
 
-  public add(item: News): Observable<any> {
+  public add(item: NewsFormModel): Observable<any> {
     return this.doAdd<any>('news', item);
   }
 
-  public update(id: number, item: News): Observable<any> {
+  public update(id: number, item: NewsFormModel): Observable<any> {
     return this.doUpdate<any>('news', id, item);
   }
 }
