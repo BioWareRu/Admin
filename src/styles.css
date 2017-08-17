@@ -2,7 +2,24 @@
   color: #f55a4e;
 }
 
-.cke_screen_reader_only
-{
-  position: fixed!important;
+.cke_screen_reader_only {
+  position: fixed !important;
+}
+
+.form-buttons {
+  text-align: right;
+  position: absolute;
+  top: 35px;
+  right: 40px;
+  z-index: 9999;
+}
+
+@media (max-width: 991px) {
+  .card .card-content {
+    padding-top: 50px;
+  }
+
+  .form-buttons {
+    top: 3px;
+  }
 }
