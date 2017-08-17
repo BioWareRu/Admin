@@ -10,6 +10,7 @@ import {Observable} from 'rxjs/Observable';
 import {NewsFormModel} from '../models/NewsFormModel';
 import {BioFormControl} from '../../../core/forms/BioFormControl';
 import {SaveNewsResponse} from '../../../results/News';
+import {Utils} from '../../../core/Utils';
 
 @Component({
     moduleId: module.id,
@@ -53,6 +54,7 @@ export class NewsFormComponent implements OnInit {
             } else {
                 this.news = new NewsFormModel();
                 this.news.title = 'Сейчас я напишу клёвую новость!';
+                this.news.url = this.slugify(this.news.title);
 
                 this.loadFormData();
             }
@@ -94,17 +96,37 @@ export class NewsFormComponent implements OnInit {
         const myFormValueChanges$ = this.reactiveFormGroup.valueChanges;
 
         myFormValueChanges$.subscribe(x => {
+            console.log(x);
+            let urlChanged = false;
             for (const k in x) {
                 if (!x.hasOwnProperty(k)) {
                     continue;
                 }
                 if (this.news[k] !== x[k]) {
+                    console.log(k);
                     this.hasChanges = true;
                     this.success = false;
+                    if (k === 'title') {
+                        const origSlug = this.slugify(this.news.title);
+                        if (origSlug === this.news.url) {
+                            urlChanged = true;
+                        }
+                    }
                     this.news[k] = x[k];
                     (<BioFormControl>this.reactiveFormGroup.controls[k]).ServerErrors = [];
                 }
             }
+            if (urlChanged) {
+                this.reactiveFormGroup.controls['url'].setValue(this.slugify(this.news.title));
+            }
+        });
+    }
+
+    private slugify(str: string) {
+        return Utils.slugify(str, {
+            replacement: '_',
+            lower: true,
+            remove: /[^\w\s$*_+~.()'"!\-:@]/g
         });
     }
 
