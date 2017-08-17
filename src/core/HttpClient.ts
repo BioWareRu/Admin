@@ -7,6 +7,11 @@ import {environment} from '../environments/environment';
 @Injectable()
 export class HttpClient {
 
+    private baseUrl: string = environment.apiUrl;
+
+    constructor(private http: Http, private userService: UserService) {
+    }
+
     public static encodeQueryData(data) {
         let ret = [];
         for (let d in data) {
@@ -16,11 +21,6 @@ export class HttpClient {
             ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
         }
         return ret.join('&');
-    }
-
-    private baseUrl: string = environment.apiUrl;
-
-    constructor(private http: Http, private userService: UserService) {
     }
 
     public get (resource, params) {
