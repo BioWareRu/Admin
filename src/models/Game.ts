@@ -2,36 +2,36 @@ import {Parent, ParentType} from './Parent';
 import {JsonProperty} from 'json-object-mapper';
 
 export class Game extends Parent {
-  @JsonProperty('id')
+  @JsonProperty()
   public id: number = undefined;
   public type: ParentType;
-  @JsonProperty('developerId')
+  @JsonProperty()
   public developerId: number = undefined;
-  @JsonProperty('url')
+  @JsonProperty()
   public url: string = undefined;
-  @JsonProperty('title')
+  @JsonProperty()
   public title: string = undefined;
-  @JsonProperty('adminTitle')
+  @JsonProperty()
   public adminTitle: string = undefined;
-  @JsonProperty('genre')
+  @JsonProperty()
   public genre: string = undefined;
-  @JsonProperty('releaseDate')
+  @JsonProperty()
   public releaseDate: string = undefined;
-  @JsonProperty('platfroms')
+  @JsonProperty()
   public platfroms: string = undefined;
-  @JsonProperty('desc')
+  @JsonProperty()
   public desc: string = undefined;
-  @JsonProperty('publisher')
+  @JsonProperty()
   public publisher: string = undefined;
-  @JsonProperty('localizator')
+  @JsonProperty()
   public localizator: string = undefined;
-  @JsonProperty('logo')
+  @JsonProperty()
   public logo: string = undefined;
-  @JsonProperty('smallLogo')
+  @JsonProperty()
   public smallLogo: string = undefined;
-  @JsonProperty('tweetTag')
+  @JsonProperty()
   public tweetTag: string = undefined;
-  @JsonProperty('info')
+  @JsonProperty()
   public info: string = undefined;
 
   public constructor() {

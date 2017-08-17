@@ -3,26 +3,26 @@ import {JsonProperty} from 'json-object-mapper';
 
 export class Developer extends Parent {
 
-  @JsonProperty('id')
+  @JsonProperty()
   public id: number = undefined;
   public type: ParentType;
-  @JsonProperty('url')
+  @JsonProperty()
   public url: string = undefined;
-  @JsonProperty('name')
+  @JsonProperty()
   public name: string = undefined;
-  @JsonProperty('info')
+  @JsonProperty()
   public info: string = undefined;
-  @JsonProperty('desc')
+  @JsonProperty()
   public desc: string = undefined;
-  @JsonProperty('logo')
+  @JsonProperty()
   public logo: string = undefined;
-  @JsonProperty('foundYear')
+  @JsonProperty()
   public foundYear: number = undefined;
-  @JsonProperty('location')
+  @JsonProperty()
   public location: string = undefined;
-  @JsonProperty('peoples')
+  @JsonProperty()
   public peoples: string = undefined;
-  @JsonProperty('site')
+  @JsonProperty()
   public site: string = undefined;
 
   public constructor() {

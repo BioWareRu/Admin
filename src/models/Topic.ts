@@ -1,16 +1,16 @@
 import { Parent, ParentType } from './Parent';
 import {JsonProperty} from 'json-object-mapper';
 export class Topic extends Parent {
-  @JsonProperty('id')
+  @JsonProperty()
   public id: number = undefined;
   public type: ParentType;
-  @JsonProperty('title')
+  @JsonProperty()
   public title: string = undefined;
-  @JsonProperty('url')
+  @JsonProperty()
   public url: string = undefined;
-  @JsonProperty('logo')
+  @JsonProperty()
   public logo: string = undefined;
-  @JsonProperty('desc')
+  @JsonProperty()
   public desc: string = undefined;
 
   public constructor() {

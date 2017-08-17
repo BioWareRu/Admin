@@ -1,9 +1,9 @@
 import {JsonProperty} from 'json-object-mapper';
 
 export class RestResult {
-    @JsonProperty('code')
+    @JsonProperty()
     public Code: number = undefined;
-    @JsonProperty('errors')
+    @JsonProperty()
     public Errors: RestError[] = [];
 }
 
