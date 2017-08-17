@@ -7,8 +7,8 @@ import {ListResult} from './ListResult';
 export abstract class BaseService<T> {
 
   constructor(private httpClient: HttpClient/*,
-              private dataObjectClass: { new(): T },
-              private listDataObjectClass: { new(): ListResult<T> }*/) {
+              private dataObjectClass: { new(): TModel },
+              private listDataObjectClass: { new(): ListResult<TModel> }*/) {
   }
 
   public getAll(resource: string, page: number, perPage: number, sort) {

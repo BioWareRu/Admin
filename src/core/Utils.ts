@@ -91,4 +91,12 @@ export class Utils {
 
         return options.lower ? string.toLowerCase() : string;
     }
+
+    public static slugifyUrl(str: string) {
+        return Utils.slugify(str, {
+            replacement: '_',
+            lower: true,
+            remove: /[^\w\s$*_+~.()'"!\-:@]/g
+        });
+    }
 }
