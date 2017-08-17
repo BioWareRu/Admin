@@ -19,6 +19,8 @@ import {DevelopersService} from '../services/DevelopersService';
 import {GamesService} from '../services/GamesService';
 import {ArticlesService} from '../services/ArticlesService';
 import 'moment/locale/ru';
+import {AppState} from '../core/AppState';
+import {SettingsService} from '../services/SettingsService';
 
 @NgModule({
     declarations: [
@@ -43,7 +45,9 @@ import 'moment/locale/ru';
         GamesService,
         DevelopersService,
         TopicsService,
-        Repository
+        Repository,
+        SettingsService,
+        AppState
     ],
     bootstrap: [AppComponent]
 })

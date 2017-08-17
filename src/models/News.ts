@@ -3,7 +3,6 @@ import {Game} from './Game';
 import {Developer} from './Developer';
 import {Topic} from './Topic';
 import {JsonProperty} from 'json-object-mapper';
-import {forEach} from "@angular/router/src/utils/collection";
 
 export class News {
   @JsonProperty()
