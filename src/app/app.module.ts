@@ -19,37 +19,33 @@ import {DevelopersService} from '../services/DevelopersService';
 import {GamesService} from '../services/GamesService';
 import {ArticlesService} from '../services/ArticlesService';
 import 'moment/locale/ru';
-import {TextInputComponent} from "../core/forms/TextInputComponent";
-import {ErrorsListComponent} from "../core/forms/ErrorsListComponent";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    AdminLayoutComponent,
-    //TextInputComponent,
-    //ErrorsListComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    RouterModule.forRoot(AppRoutes),
-    OAuthModule.forRoot(),
-    HttpModule,
-    SidebarModule,
-    NavbarModule,
-    FooterModule
-  ],
-  providers: [
-    HttpClient,
-    UserService,
-    NewsService,
-    ArticlesService,
-    GamesService,
-    DevelopersService,
-    TopicsService,
-    Repository
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        AdminLayoutComponent
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        RouterModule.forRoot(AppRoutes),
+        OAuthModule.forRoot(),
+        HttpModule,
+        SidebarModule,
+        NavbarModule,
+        FooterModule
+    ],
+    providers: [
+        HttpClient,
+        UserService,
+        NewsService,
+        ArticlesService,
+        GamesService,
+        DevelopersService,
+        TopicsService,
+        Repository
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }
