@@ -1,9 +1,10 @@
 import {Input, OnInit} from '@angular/core';
 import {AbstractControl, FormGroup} from '@angular/forms';
+import {BioFormControl} from "./BioFormControl";
 
 export abstract class FormInput implements OnInit {
 
-  public Control: AbstractControl;
+  public Control: BioFormControl;
 
   @Input() public Errors: string[];
   @Input() public FieldName: string;
@@ -11,6 +12,6 @@ export abstract class FormInput implements OnInit {
   @Input() public FormGroup: FormGroup;
 
   ngOnInit(): void {
-    this.Control = this.FormGroup.controls[this.FieldName];
+    this.Control = <BioFormControl>this.FormGroup.controls[this.FieldName];
   }
 }

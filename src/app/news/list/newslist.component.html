@@ -22,7 +22,9 @@
                 </thead>
                 <tbody>
                 <tr
-                  *ngFor="let newsItem of items | async | paginate: { id: 'server', itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }">
+                  *ngFor="let newsItem of items | async | paginate: { id: 'server', itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }"
+                  [ngClass]="{'unpublished':newsItem.pub!=1}"
+                >
                   <td>{{newsItem.id}}</td>
                   <td><a [routerLink]="['/news', newsItem.id, 'edit']">{{newsItem.title}}</a></td>
                   <td>{{(newsItem.date| amFromUnix) | amTimeAgo}}</td>

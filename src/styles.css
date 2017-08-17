@@ -14,6 +14,14 @@
   z-index: 9999;
 }
 
+tr.unpublished {
+  opacity: 0.6;
+}
+
+.form-element.element-invalid label {
+  color: #f55a4e;
+}
+
 @media (max-width: 991px) {
   .card .card-content {
     padding-top: 50px;

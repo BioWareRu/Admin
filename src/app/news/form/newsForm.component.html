@@ -7,8 +7,8 @@
       </button>
       <button (click)="save()" [disabled]="formGroup.invalid||!hasChanges"
               class="btn btn-fill"
-              [ngClass]="{'btn-rose': hasChanges, 'btn-warning': formGroup.invalid||hasErrors, 'btn-success': success}">
-        {{success?"Сохранено!":(hasErrors?"Ошибки!":"Сохранить")}}
+              [ngClass]="{'btn-rose': !(formGroup.invalid||hasErrors)&&hasChanges, 'btn-warning': formGroup.invalid||hasErrors, 'btn-success': success}">
+        {{success?"Сохранено!":(formGroup.invalid||hasErrors?"Ошибки!":"Сохранить")}}
       </button>
     </div>
     <div class="row">

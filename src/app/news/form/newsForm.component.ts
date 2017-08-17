@@ -36,6 +36,7 @@ export class NewsFormComponent extends ChildFormComponent<NewsFormModel, SaveNew
 
   protected processSuccessSave(saveResult: SaveNewsResponse) {
     if (!this.newsId) {
+      console.log(saveResult);
       this.router.navigate(['/news', saveResult.Model.id, 'edit']);
     }
   }
@@ -55,6 +56,22 @@ export class NewsFormComponent extends ChildFormComponent<NewsFormModel, SaveNew
         this.updateControlValue('url', Utils.slugifyUrl(changes.title.current));
       }
     }
+  }
+
+  protected publish() {
+    this.repository.NewsService.publish(this.newsId).subscribe((res: boolean) => {
+      this.isPublished = res;
+    }, err => {
+      this.isPublished = false;
+    });
+  }
+
+  protected unpublish() {
+    this.repository.NewsService.unpublish(this.newsId).subscribe((res: boolean) => {
+      this.isPublished = res;
+    }, err => {
+      this.isPublished = true;
+    });
   }
 
   ngOnInit(): void {
