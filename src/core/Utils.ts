@@ -72,10 +72,8 @@ export class Utils {
 
         string = string.split('')
             .reduce(function (result, ch) {
-                console.log(ch);
                 if (Utils.charMap[ch]) {
                     ch = Utils.charMap[ch];
-                    console.log(ch);
                 }
                 // allowed
                 ch = ch.replace(options.remove || /[^\w\s$*_+~.()'"!\-:@]/g, '');

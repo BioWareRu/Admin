@@ -21,7 +21,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         var $fix_button = $(this);
         var $card = $(this).parent('.card');
         $card.find('.fix-broken-card').click(function () {
-          console.log(this);
           var $header = $(this).parent().parent().siblings('.card-header, .card-image');
           $header.removeClass('hinge').addClass('fadeInDown');
 

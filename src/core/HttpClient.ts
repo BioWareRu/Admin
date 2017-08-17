@@ -36,7 +36,6 @@ export class HttpClient {
     public post(resource, data) {
         let headers = new Headers();
         this.createAuthorizationHeader(headers);
-        console.log(this.getUrl(resource), headers, data);
         return this.http.post(this.getUrl(resource), data, this.getRequestOptions());
     }
 

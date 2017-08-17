@@ -99,7 +99,6 @@ export class NavbarComponent implements OnInit{
         return 'Dashboard';
     }
     getPath(){
-        // console.log(this.location);
         return this.location.prepareExternalUrl(this.location.path());
     }
 }
