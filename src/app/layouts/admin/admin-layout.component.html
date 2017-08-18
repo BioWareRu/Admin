@@ -9,7 +9,7 @@
     <router-outlet></router-outlet>
     <div class="error-screen" [hidden]="!errorCode" attr.data-error-code="{{errorCode}}">
       <div class="main-content">
-        <div class="card" [hidden]="!dataLoaded">
+        <div class="card">
           <div class="card-header card-header-icon" data-background-color="rose">
             <i class="material-icons">error</i>
           </div>
