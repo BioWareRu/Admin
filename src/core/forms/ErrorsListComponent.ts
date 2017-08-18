@@ -9,6 +9,9 @@ import {BioFormControl} from './BioFormControl';
         <div *ngIf="Control.errors['required']" class="control-error">
           Поле обязательно для заполнения
         </div>
+        <div *ngIf="Control.errors['url']" class="control-error">
+          Значение должно являться корректным URL
+        </div>
       </div>
       <div>
         <div *ngFor="let e of Control.ServerErrors" class="control-error">

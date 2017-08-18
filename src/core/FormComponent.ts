@@ -107,6 +107,9 @@ export abstract class FormComponent<TModel, TResultModel> {
       });
     }
   }
+
+  protected afterInit() {
+  }
 }
 
 export abstract class ChildFormComponent<TModel extends Child, TSaveModel> extends FormComponent<TModel, TSaveModel> {
@@ -133,6 +136,7 @@ export abstract class ChildFormComponent<TModel extends Child, TSaveModel> exten
         this.topics = res[2].data;
         this.buildParents('Темы', this.topics);
         this.initForm();
+        this.afterInit();
       }
     );
   }

@@ -8,6 +8,8 @@ import {BioFormControl} from '../../../core/forms/BioFormControl';
 import {SaveNewsResponse} from '../../../results/News';
 import {Utils} from '../../../core/Utils';
 import {ChildFormComponent} from '../../../core/FormComponent';
+import {Parent} from '../../../models/Parent';
+import {CustomFormsModule, CustomValidators} from "ng2-validation";
 
 @Component({
   moduleId: module.id,
@@ -16,18 +18,46 @@ import {ChildFormComponent} from '../../../core/FormComponent';
 })
 export class NewsFormComponent extends ChildFormComponent<NewsFormModel, SaveNewsResponse> implements OnInit {
 
-  private newsId: number;
   protected isPublished = false;
+  private newsId: number;
 
   constructor(public route: ActivatedRoute, protected repository: Repository, private router: Router) {
     super(repository);
+  }
+
+  protected static getParentTitle(parent: Parent) {
+    return parent.title + ' — ';
+  }
+
+  ngOnInit(): void {
+    const id: Observable<number> = this.route.params.map(p => p.id);
+    id.subscribe(newsId => {
+      if (newsId > 0) {
+        this.newsId = newsId;
+        this.repository.NewsService.get(newsId).subscribe(news => {
+          this.model = <NewsFormModel>news;
+          this.isPublished = news.pub === 1;
+          this.loadFormData();
+        });
+      } else {
+        this.isNew = true;
+        this.model = new NewsFormModel();
+        this.loadFormData();
+      }
+    });
+  }
+
+  protected afterInit() {
+    if (this.isNew) {
+      this.updateControlValue('title', NewsFormComponent.getParentTitle(this.model.parent));
+    }
   }
 
   protected getFormGroupConfig(): { [key: string]: AbstractControl; } {
     return {
       title: new BioFormControl('', [<any>Validators.required]),
       url: new BioFormControl('', [<any>Validators.required]),
-      source: new BioFormControl('', [<any>Validators.required]),
+      source: new BioFormControl('', [<any>Validators.required, CustomValidators.url]),
       shortText: new BioFormControl('', [<any>Validators.required]),
       addText: new BioFormControl('', []),
       parent: new BioFormControl('', [<any>Validators.required])
@@ -50,10 +80,16 @@ export class NewsFormComponent extends ChildFormComponent<NewsFormModel, SaveNew
   }
 
   protected processChanges(changes: any) {
+    console.log(changes);
     if (changes['title']) {
       const origSlug = Utils.slugifyUrl(changes.title.old);
-      if (origSlug === this.model.url) {
+      if (!this.model.url || origSlug === this.model.url) {
         this.updateControlValue('url', Utils.slugifyUrl(changes.title.current));
+      }
+    }
+    if (changes['parent']) {
+      if (!this.model.title || this.model.title === NewsFormComponent.getParentTitle(changes.parent.old)) {
+        this.updateControlValue('title', NewsFormComponent.getParentTitle(changes.parent.current));
       }
     }
   }
@@ -71,27 +107,6 @@ export class NewsFormComponent extends ChildFormComponent<NewsFormModel, SaveNew
       this.isPublished = res;
     }, err => {
       this.isPublished = true;
-    });
-  }
-
-  ngOnInit(): void {
-    const id: Observable<number> = this.route.params.map(p => p.id);
-    id.subscribe(newsId => {
-      if (newsId > 0) {
-        this.newsId = newsId;
-        this.repository.NewsService.get(newsId).subscribe(news => {
-          this.model = <NewsFormModel>news;
-          this.isPublished = news.pub === 1;
-          this.loadFormData();
-        });
-      } else {
-        this.isNew = true;
-        this.model = new NewsFormModel();
-        this.model.title = 'Сейчас я напишу клёвую новость!';
-        this.model.url = Utils.slugifyUrl(this.model.title);
-
-        this.loadFormData();
-      }
     });
   }
 }

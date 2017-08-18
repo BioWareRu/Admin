@@ -6,6 +6,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { DropDownInputComponent } from './DropDownInputComponent';
 import { CKEInputComponent } from './CKEInputComponent';
+import {CustomFormsModule} from 'ng2-validation';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { CKEInputComponent } from './CKEInputComponent';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    CKEditorModule
+    CKEditorModule,
+    CustomFormsModule
   ]
 })
 export class BioFormsModule {
