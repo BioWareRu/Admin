@@ -3,13 +3,18 @@ import {Headers, Http, RequestOptionsArgs} from '@angular/http';
 import {UserService} from '../services/UserService';
 import {Observable} from 'rxjs/Observable';
 import {environment} from '../environments/environment';
+import {AppState} from './AppState';
 
 @Injectable()
 export class HttpClient {
 
   private baseUrl: string = environment.apiUrl;
 
-  constructor(private http: Http, private userService: UserService) {
+  private terminateErrorCodes = [
+    400, 403, 404, 500, 502, 504
+  ];
+
+  constructor(private http: Http, private userService: UserService, private _appState: AppState) {
   }
 
   public static encodeQueryData(data) {
@@ -26,10 +31,7 @@ export class HttpClient {
   public get (resource, params) {
     return this.canRunQuery() && this.http.get(this.getUrl(resource, params), this.getRequestOptions())
       .catch((error: any) => {
-        if (error.status === 401) {
-          this.userService.relogin();
-        }
-        return Observable.empty();
+        return this.processError(error);
       });
   }
 
@@ -39,6 +41,16 @@ export class HttpClient {
 
   public put(resource, data) {
     return this.http.put(this.getUrl(resource), data, this.getRequestOptions());
+  }
+
+  private processError(error: any) {
+    if (error.status === 401) {
+      this.userService.relogin();
+    }
+    if (this.terminateErrorCodes.indexOf(error.status) > -1) {
+      this._appState.notifyDataChanged('httpError', error.status);
+    }
+    return Observable.empty();
   }
 
   private canRunQuery() {

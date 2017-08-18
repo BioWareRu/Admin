@@ -1,14 +1,46 @@
-
 <div class="wrapper">
-    <div class="sidebar" data-active-color="blue" data-background-color="black" data-image="../assets/img/sidebar_mea.jpg">
-        <sidebar-cmp></sidebar-cmp>
-        <div class="sidebar-background" style="background-image: url(assets/img/sidebar_mea.jpg)"></div>
-    </div>
-    <div class="main-panel">
-        <navbar-cmp></navbar-cmp>
-        <router-outlet></router-outlet>
-        <div *ngIf="!isMap()">
-            <footer-cmp></footer-cmp>
+  <div class="sidebar" data-active-color="blue" data-background-color="black"
+       data-image="../assets/img/sidebar_mea.jpg">
+    <sidebar-cmp></sidebar-cmp>
+    <div class="sidebar-background" style="background-image: url(assets/img/sidebar_mea.jpg)"></div>
+  </div>
+  <div class="main-panel">
+    <navbar-cmp></navbar-cmp>
+    <router-outlet></router-outlet>
+    <div class="error-screen" [hidden]="!errorCode" attr.data-error-code="{{errorCode}}">
+      <div class="main-content">
+        <div class="card" [hidden]="!dataLoaded">
+          <div class="card-header card-header-icon" data-background-color="rose">
+            <i class="material-icons">error</i>
+          </div>
+          <div class="card-content">
+            <h4 class="card-title">Ошибка</h4>
+            <div class="content table-responsive" [ngSwitch]="errorCode">
+              <div *ngSwitchCase="403">
+                Ошибка доступа. Вам не хватает прав для выполнения этой операции.
+              </div>
+              <div *ngSwitchCase="404">
+                Страница не найдена. Проверьте адрес и попробуйте ещё раз.
+              </div>
+              <div *ngSwitchCase="500">
+                Произошла ошибка на стороне сервера. Попробуйте ещё раз.
+              </div>
+              <div *ngSwitchCase="502">
+                Произошла ошибка на стороне сервера. Попробуйте ещё раз.
+              </div>
+              <div *ngSwitchCase="504">
+                Произошла ошибка на стороне сервера. Попробуйте ещё раз.
+              </div>
+              <div *ngSwitchCase="400">
+                Некорректный запрос к серверу. Попробуйте ещё раз.
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+    <div *ngIf="!isMap()">
+      <footer-cmp></footer-cmp>
+    </div>
+  </div>
 </div>

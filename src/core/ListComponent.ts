@@ -43,6 +43,7 @@ export class ListComponent<T> implements OnInit {
       this.totalItems = res.totalItems;
       this.currentPage = page;
       this.dataLoaded = true;
+      console.log('data loaded');
     }).map((res) => res.data);
   }
 }
