@@ -21,35 +21,39 @@ import {ArticlesService} from '../services/ArticlesService';
 import 'moment/locale/ru';
 import {AppState} from '../core/AppState';
 import {SettingsService} from '../services/SettingsService';
+import {AuthGuard} from '../core/AuthGuard';
+import {SettingsResolver} from '../core/SettingsResolver';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        AdminLayoutComponent
-    ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        RouterModule.forRoot(AppRoutes),
-        OAuthModule.forRoot(),
-        HttpModule,
-        SidebarModule,
-        NavbarModule,
-        FooterModule
-    ],
-    providers: [
-        HttpClient,
-        UserService,
-        NewsService,
-        ArticlesService,
-        GamesService,
-        DevelopersService,
-        TopicsService,
-        Repository,
-        SettingsService,
-        AppState
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    AdminLayoutComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    RouterModule.forRoot(AppRoutes),
+    OAuthModule.forRoot(),
+    HttpModule,
+    SidebarModule,
+    NavbarModule,
+    FooterModule
+  ],
+  providers: [
+    HttpClient,
+    UserService,
+    NewsService,
+    ArticlesService,
+    GamesService,
+    DevelopersService,
+    TopicsService,
+    Repository,
+    SettingsService,
+    AppState,
+    AuthGuard,
+    SettingsResolver
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }

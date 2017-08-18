@@ -1,47 +1,27 @@
 import {Injectable} from '@angular/core';
-
-export interface InternalStateType {
-    [key: string]: any;
-}
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class AppState {
 
-    public _state: InternalStateType = {};
+  private _data: { [id: string]: BehaviorSubject<Object>; } = {};
 
-    /**
-     * Already return a clone of the current state.
-     */
-    public get state() {
-        return this._state = this._clone(this._state);
-    }
+  constructor() {
+  }
 
-    /**
-     * Never allow mutation
-     */
-    public set state(value) {
-        throw new Error('do not mutate the `.state` directly');
+  private getOrCreate(key: string): BehaviorSubject<Object> {
+    if (!this._data[key]) {
+      this._data[key] = new BehaviorSubject<Object>(null);
     }
+    return this._data[key];
+  }
 
-    public get (prop?: any) {
-        /**
-         * Use our state getter for the clone.
-         */
-        const state = this.state;
-        return state.hasOwnProperty(prop) ? state[prop] : state;
-    }
+  public notifyDataChanged(key: string, value) {
+    this.getOrCreate(key).next(value);
+  }
 
-    public set (prop: string, value: any) {
-        /**
-         * Internally mutate our state.
-         */
-        return this._state[prop] = value;
-    }
+  public subscribe(key: string) {
+    return this.getOrCreate(key);
+  }
 
-    private _clone(object: InternalStateType) {
-        /**
-         * Simple object clone.
-         */
-        return JSON.parse(JSON.stringify(object));
-    }
 }

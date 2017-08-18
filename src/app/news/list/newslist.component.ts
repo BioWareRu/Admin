@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {ListComponent} from '../../../core/ListComponent';
 import {News} from '../../../models/News';
 import {Repository} from '../../../core/Repository';

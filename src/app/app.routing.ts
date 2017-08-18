@@ -1,6 +1,8 @@
 import {Routes} from '@angular/router';
 
 import {AdminLayoutComponent} from './layouts/admin/admin-layout.component';
+import {AuthGuard} from '../core/AuthGuard';
+import {SettingsResolver} from '../core/SettingsResolver';
 
 export const AppRoutes: Routes = [
   {
@@ -11,6 +13,8 @@ export const AppRoutes: Routes = [
   {
     path: '',
     component: AdminLayoutComponent,
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children: [
       {
         path: '',

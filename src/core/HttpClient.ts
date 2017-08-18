@@ -7,66 +7,66 @@ import {environment} from '../environments/environment';
 @Injectable()
 export class HttpClient {
 
-    private baseUrl: string = environment.apiUrl;
+  private baseUrl: string = environment.apiUrl;
 
-    constructor(private http: Http, private userService: UserService) {
+  constructor(private http: Http, private userService: UserService) {
+  }
+
+  public static encodeQueryData(data) {
+    let ret = [];
+    for (let d in data) {
+      if (!data.hasOwnProperty(d)) {
+        continue;
+      }
+      ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
     }
+    return ret.join('&');
+  }
 
-    public static encodeQueryData(data) {
-        let ret = [];
-        for (let d in data) {
-            if (!data.hasOwnProperty(d)) {
-                continue;
-            }
-            ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+  public get (resource, params) {
+    return this.canRunQuery() && this.http.get(this.getUrl(resource, params), this.getRequestOptions())
+      .catch((error: any) => {
+        if (error.status === 401) {
+          this.userService.relogin();
         }
-        return ret.join('&');
-    }
+        return Observable.empty();
+      });
+  }
 
-    public get (resource, params) {
-        return this.http.get(this.getUrl(resource, params), this.getRequestOptions())
-            .catch((error: any) => {
-                if (error.status === 401) {
-                    this.userService.relogin();
-                }
-                return Observable.empty();
-            });
-    }
+  public post(resource, data) {
+    return this.canRunQuery() && this.http.post(this.getUrl(resource), data, this.getRequestOptions());
+  }
 
-    public post(resource, data) {
-        let headers = new Headers();
-        this.createAuthorizationHeader(headers);
-        return this.http.post(this.getUrl(resource), data, this.getRequestOptions());
-    }
+  public put(resource, data) {
+    return this.http.put(this.getUrl(resource), data, this.getRequestOptions());
+  }
 
-    public put(resource, data) {
-        let headers = new Headers();
-        this.createAuthorizationHeader(headers);
-        return this.http.put(this.getUrl(resource), data, this.getRequestOptions());
-    }
+  private canRunQuery() {
+    return this.userService.isLoggedIn();
+  }
 
-    private createAuthorizationHeader(headers: Headers) {
-        if (this.userService.isLoggedIn()) {
-            headers.append('Authorization', this.userService.getAuthorizationHeader());
-        } else {
-            this.userService.relogin();
-        }
+  private createAuthorizationHeader(headers: Headers) {
+    if (this.userService.isLoggedIn()) {
+      headers.append('Authorization', this.userService.getAuthorizationHeader());
+    } else {
+      this.userService.relogin();
     }
+  }
 
-    private getRequestOptions(): RequestOptionsArgs {
-        let headers = new Headers();
-        this.createAuthorizationHeader(headers);
-        let options: RequestOptionsArgs = {};
-        options.headers = headers;
+  private getRequestOptions(): RequestOptionsArgs {
+    const headers = new Headers();
+    this.createAuthorizationHeader(headers);
+    const options: RequestOptionsArgs = {};
+    options.headers = headers;
 
-        return options;
+    return options;
+  }
+
+  private getUrl(resource: string, params?: object) {
+    let url = this.baseUrl + resource + '?';
+    if (params) {
+      url += HttpClient.encodeQueryData(params);
     }
-
-    private getUrl(resource: string, params?: object) {
-        let url = this.baseUrl + resource + '?';
-        if (params) {
-            url += HttpClient.encodeQueryData(params);
-        }
-        return url;
-    }
+    return url;
+  }
 }

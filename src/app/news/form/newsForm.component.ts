@@ -66,7 +66,6 @@ export class NewsFormComponent extends ChildFormComponent<NewsFormModel, SaveNew
 
   protected processSuccessSave(saveResult: SaveNewsResponse) {
     if (!this.newsId) {
-      console.log(saveResult);
       this.router.navigate(['/news', saveResult.Model.id, 'edit']);
     }
   }
@@ -80,7 +79,6 @@ export class NewsFormComponent extends ChildFormComponent<NewsFormModel, SaveNew
   }
 
   protected processChanges(changes: any) {
-    console.log(changes);
     if (changes['title']) {
       const origSlug = Utils.slugifyUrl(changes.title.old);
       if (!this.model.url || origSlug === this.model.url) {
