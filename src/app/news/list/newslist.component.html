@@ -9,6 +9,10 @@
           <div class="card-content">
             <h4 class="card-title">Новости</h4>
             <div class="content table-responsive">
+              <div class="text-center">
+                <pagination-controls (pageChange)="load($event)" id="server" previousLabel="Назад"
+                                     nextLabel="Вперёд"></pagination-controls>
+              </div>
               <table class="table">
                 <thead class="text-primary">
                 <tr>
@@ -30,18 +34,21 @@
                   <td>{{(newsItem.date| amFromUnix) | amTimeAgo}}</td>
                   <td>{{newsItem.parentName}}</td>
                   <td>{{newsItem.authorName}}</td>
-                  <td><a href="{{newsItem.publicUrl}}"><i class="material-icons">pageview</i></a></td>
+                  <td>
+                    <a target="_blank" href="{{newsItem.publicUrl}}"><i class="material-icons">pageview</i></a>
+                    <a href="javascript:;" (click)="deleteItem(newsItem.id)"><i class="material-icons">delete</i></a>
+                  </td>
                 </tr>
                 </tbody>
               </table>
-
+              <div class="text-center">
+                <pagination-controls (pageChange)="load($event)" id="server" previousLabel="Назад"
+                                     nextLabel="Вперёд"></pagination-controls>
+              </div>
             </div>
           </div>
         </div>
-        <div class="text-center">
-          <pagination-controls (pageChange)="load($event)" id="server" previousLabel="Назад"
-                               nextLabel="Вперёд"></pagination-controls>
-        </div>
+
       </div>
       <div [hidden]="dataLoaded">
         Загрузка данных

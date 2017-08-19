@@ -4,6 +4,7 @@ import {NavItem, NavItemType} from '../../md/md.module';
 import {Location} from '@angular/common';
 import {AppState} from '../../../core/AppState';
 import {RestError} from '../../../models/RestError';
+import {HttpClient} from '../../../core/HttpClient';
 
 declare var $: any;
 
@@ -17,9 +18,9 @@ export class AdminLayoutComponent implements OnInit {
   public error: RestError = null;
   location: Location;
 
-  constructor(location: Location, private _appState: AppState, private router: Router) {
+  constructor(location: Location, private _appState: AppState, private router: Router, protected httpClient: HttpClient) {
     this.location = location;
-    this._appState.subscribe('httpError').subscribe((error: RestError) => this.error = error ? error : null);
+    this._appState.get('httpError').subscribe((error: RestError) => this.error = error ? error : null);
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.error = null;

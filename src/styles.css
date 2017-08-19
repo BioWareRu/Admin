@@ -44,8 +44,22 @@ tr.unpublished {
   cursor: pointer;
 }
 
+.delete-btn {
+  cursor: pointer;
+  vertical-align: middle;
+}
+
 .error-screen[data-error-code="500"] .error-close {
   display: block;
+}
+
+.ng-busy-backdrop {
+  z-index: 10001;
+  position: fixed;
+}
+
+ng-busy .loader {
+  z-index: 10002;
 }
 
 @media (max-width: 991px) {

@@ -5,11 +5,15 @@ import {Observable} from 'rxjs/Observable';
 import {environment} from '../environments/environment';
 import {AppState} from './AppState';
 import {RestError} from '../models/RestError';
+import {Subscription} from 'rxjs/Subscription';
+import {Subject} from 'rxjs/Subject';
+import {ConnectableObservable} from 'rxjs/Rx';
 
 @Injectable()
 export class HttpClient {
 
   private baseUrl: string = environment.apiUrl;
+  public currentSubscription: Subscription;
 
   private terminateErrorCodes = [
     400, 403, 404, 500, 502, 504
@@ -19,8 +23,8 @@ export class HttpClient {
   }
 
   public static encodeQueryData(data) {
-    let ret = [];
-    for (let d in data) {
+    const ret = [];
+    for (const d in data) {
       if (!data.hasOwnProperty(d)) {
         continue;
       }
@@ -30,24 +34,40 @@ export class HttpClient {
   }
 
   public get (resource, params) {
-    return this.canRunQuery() && this.http.get(this.getUrl(resource, params), this.getRequestOptions())
+
+    return this.getObservable(this.canRunQuery() && this.http.get(this.getUrl(resource, params), this.getRequestOptions())
       .catch((error: any) => {
         return this.processError(error);
-      });
+      }));
   }
 
   public post(resource, data) {
-    return this.canRunQuery() && this.http.post(this.getUrl(resource), data, this.getRequestOptions())
+    return this.getObservable(this.canRunQuery() && this.http.post(this.getUrl(resource), data, this.getRequestOptions())
       .catch((error: any) => {
         return this.processError(error);
-      });
+      }));
   }
 
   public put(resource, data) {
-    return this.http.put(this.getUrl(resource), data, this.getRequestOptions())
+    return this.getObservable(this.http.put(this.getUrl(resource), data, this.getRequestOptions())
       .catch((error: any) => {
         return this.processError(error);
-      });
+      }));
+  }
+
+  public delete(resource) {
+    return this.getObservable(this.http.delete(this.getUrl(resource), this.getRequestOptions())
+      .catch((error: any) => {
+        return this.processError(error);
+      }));
+  }
+
+  private getObservable(task: Observable<any>): ConnectableObservable<any> {
+    const subject = new Subject();
+    const multicasted = task.multicast(subject);
+    this.currentSubscription = multicasted.subscribe();
+    multicasted.connect();
+    return multicasted;
   }
 
   private processError(response: any) {

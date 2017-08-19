@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { BaseService } from '../core/BaseService';
-import { HttpClient } from '../core/HttpClient';
-import { Topic } from '../models/Topic';
-import { TopicListResult } from '../results/TopicListResult';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Rx';
+import {BaseService} from '../core/BaseService';
+import {HttpClient} from '../core/HttpClient';
+import {Topic} from '../models/Topic';
+import {TopicListResult} from '../results/TopicListResult';
 import {ObjectMapper} from 'json-object-mapper';
 import deserialize = ObjectMapper.deserialize;
 
@@ -18,7 +18,7 @@ export class TopicsService extends BaseService<Topic> {
     return this.getAll('topics', page, perPage, sort).map((res: Response) => deserialize(TopicListResult, res.json()));
   }
 
-  public get(id: number): Observable<Topic> {
+  public get (id: number): Observable<Topic> {
     return this.getOne('topics', id).map((res: Response) => deserialize(Topic, res.json()));
   }
 
@@ -27,6 +27,10 @@ export class TopicsService extends BaseService<Topic> {
   }
 
   public update(id: number, item: Topic): Observable<Topic> {
+    throw new Error('Method not implemented.');
+  }
+
+  public delete(id: number): Observable<boolean> {
     throw new Error('Method not implemented.');
   }
 }

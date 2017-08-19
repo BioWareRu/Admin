@@ -7,20 +7,24 @@ export abstract class BaseService<T> {
   constructor(protected httpClient: HttpClient) {
   }
 
-  public getAll(resource: string, page: number, perPage: number, sort) {
+  protected getAll(resource: string, page: number, perPage: number, sort) {
     return this.httpClient.get(resource, {limit: perPage, offset: perPage * (page - 1), order: sort});
   }
 
-  public getOne(resource: string, id: number) {
+  protected getOne(resource: string, id: number) {
     return this.httpClient.get(resource + '/' + id, {});
   }
 
-  public doAdd(resource: string, item: any) {
+  protected doAdd(resource: string, item: any) {
     return this.httpClient.post(resource, item);
   }
 
-  public doUpdate(resource: string, id: number, item: any) {
+  protected doUpdate(resource: string, id: number, item: any) {
     return this.httpClient.put(resource + '/' + id, item);
+  }
+
+  protected doDelete(resource: string, id: number) {
+    return this.httpClient.delete(resource + '/' + id);
   }
 
   public abstract getList(page: number, perPage: number, sort: string): Observable<ListResult<T>>;
@@ -30,4 +34,6 @@ export abstract class BaseService<T> {
   public abstract add(item: any): Observable<any>;
 
   public abstract update(id: number, item: any): Observable<any>;
+
+  public abstract delete(id: number): Observable<any>;
 }

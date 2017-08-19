@@ -32,6 +32,10 @@ export class NewsService extends BaseService<News> {
     return this.doUpdate('news', id, item).map((res: Response) => deserialize(SaveNewsResponse, res.json()));
   }
 
+  public delete(id: number): Observable<boolean> {
+    return this.doDelete('news', id).map((res: Response) => true);
+  }
+
   public publish(id: number): Observable<boolean> {
     return this.httpClient.put('news/' + id + '/publish', {}).map((res: Response) => true);
   }

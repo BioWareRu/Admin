@@ -2,9 +2,9 @@ import {BaseService} from './BaseService';
 import {Observable} from 'rxjs/Rx';
 import {OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {AppState} from './AppState';
 
 export class ListComponent<T> implements OnInit {
-
   public currentPage = 1;
   public itemsPerPage = 10;
   public totalItems = 0;
@@ -13,7 +13,7 @@ export class ListComponent<T> implements OnInit {
 
   public items: Observable<T[]>;
 
-  constructor(private service: BaseService<T>, private router: Router, private route: ActivatedRoute) {
+  constructor(private service: BaseService<T>, private router: Router, private route: ActivatedRoute, private _appState: AppState) {
   }
 
   ngOnInit() {
@@ -43,7 +43,15 @@ export class ListComponent<T> implements OnInit {
       this.totalItems = res.totalItems;
       this.currentPage = page;
       this.dataLoaded = true;
-      console.log('data loaded');
+      this._appState.notifyDataChanged('scrollToTop', true);
     }).map((res) => res.data);
+  }
+
+  public deleteItem(id: number) {
+    this.service.delete(id).subscribe((res: boolean) => {
+      if (res) {
+        this.load(this.currentPage);
+      }
+    });
   }
 }

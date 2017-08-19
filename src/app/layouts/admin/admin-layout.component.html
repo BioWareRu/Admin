@@ -5,6 +5,7 @@
     <div class="sidebar-background" style="background-image: url(assets/img/sidebar_mea.jpg)"></div>
   </div>
   <div class="main-panel">
+    <div [ngBusy]="httpClient.currentSubscription"></div>
     <navbar-cmp></navbar-cmp>
     <router-outlet></router-outlet>
     <div class="error-screen" *ngIf="error!==null" attr.data-error-code="{{error.Code}}">

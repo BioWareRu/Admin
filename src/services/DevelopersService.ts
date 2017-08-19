@@ -29,4 +29,8 @@ export class DevelopersService extends BaseService<Developer> {
   public update(id: number, item: Developer): Observable<Developer> {
     throw new Error('Method not implemented.');
   }
+
+  public delete(id: number): Observable<boolean> {
+    throw new Error('Method not implemented.');
+  }
 }

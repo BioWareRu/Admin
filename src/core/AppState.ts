@@ -20,7 +20,7 @@ export class AppState {
     this.getOrCreate(key).next(value);
   }
 
-  public subscribe(key: string) {
+  public get(key: string) {
     return this.getOrCreate(key);
   }
 

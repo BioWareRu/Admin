@@ -29,4 +29,8 @@ export class GamesService extends BaseService<Game> {
   public update(id: number, item: Game): Observable<Game> {
     throw new Error('Method not implemented.');
   }
+
+  public delete(id: number): Observable<boolean> {
+    throw new Error('Method not implemented.');
+  }
 }
