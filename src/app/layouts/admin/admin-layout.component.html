@@ -7,15 +7,17 @@
   <div class="main-panel">
     <navbar-cmp></navbar-cmp>
     <router-outlet></router-outlet>
-    <div class="error-screen" [hidden]="!errorCode" attr.data-error-code="{{errorCode}}">
+    <div class="error-screen" *ngIf="error!==null" attr.data-error-code="{{error.Code}}">
       <div class="main-content">
         <div class="card">
           <div class="card-header card-header-icon" data-background-color="rose">
             <i class="material-icons">error</i>
           </div>
+          <div class="error-close" (click)="error=null"><i class="material-icons">close</i></div>
           <div class="card-content">
             <h4 class="card-title">Ошибка</h4>
-            <div class="content table-responsive" [ngSwitch]="errorCode">
+            <div class="content table-responsive" [ngSwitch]="error.Code">
+              <br/>
               <div *ngSwitchCase="403">
                 Ошибка доступа. Вам не хватает прав для выполнения этой операции.
               </div>
@@ -23,7 +25,12 @@
                 Страница не найдена. Проверьте адрес и попробуйте ещё раз.
               </div>
               <div *ngSwitchCase="500">
-                Произошла ошибка на стороне сервера. Попробуйте ещё раз.
+                <p>
+                  Произошла ошибка на стороне сервера. Попробуйте ещё раз.
+                </p>
+                <p>
+                  <strong>{{error.Error}}</strong>
+                </p>
               </div>
               <div *ngSwitchCase="502">
                 Произошла ошибка на стороне сервера. Попробуйте ещё раз.

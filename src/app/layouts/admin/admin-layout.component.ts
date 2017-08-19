@@ -1,8 +1,9 @@
-import {Component, OnInit, OnDestroy, ViewChild, HostListener} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router, NavigationEnd} from '@angular/router';
 import {NavItem, NavItemType} from '../../md/md.module';
-import {LocationStrategy, PlatformLocation, Location} from '@angular/common';
+import {Location} from '@angular/common';
 import {AppState} from '../../../core/AppState';
+import {RestError} from '../../../models/RestError';
 
 declare var $: any;
 
@@ -13,15 +14,15 @@ declare var $: any;
 
 export class AdminLayoutComponent implements OnInit {
   public navItems: NavItem[];
-  public errorCode = 0;
+  public error: RestError = null;
   location: Location;
 
   constructor(location: Location, private _appState: AppState, private router: Router) {
     this.location = location;
-    this._appState.subscribe('httpError').subscribe((errorCode: number) => this.errorCode = errorCode);
+    this._appState.subscribe('httpError').subscribe((error: RestError) => this.error = error ? error : null);
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.errorCode = 0;
+        this.error = null;
       }
     });
   }

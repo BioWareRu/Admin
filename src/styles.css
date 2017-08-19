@@ -31,6 +31,23 @@ tr.unpublished {
   background: #EEE;
 }
 
+.error-screen[data-error-code="500"] {
+  background: rgba(238, 238, 238, 0.8);
+}
+
+.error-close {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  display: none;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.error-screen[data-error-code="500"] .error-close {
+  display: block;
+}
+
 @media (max-width: 991px) {
   .card .card-content {
     padding-top: 50px;

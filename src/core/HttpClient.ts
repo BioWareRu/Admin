@@ -4,6 +4,7 @@ import {UserService} from '../services/UserService';
 import {Observable} from 'rxjs/Observable';
 import {environment} from '../environments/environment';
 import {AppState} from './AppState';
+import {RestError} from '../models/RestError';
 
 @Injectable()
 export class HttpClient {
@@ -36,19 +37,26 @@ export class HttpClient {
   }
 
   public post(resource, data) {
-    return this.canRunQuery() && this.http.post(this.getUrl(resource), data, this.getRequestOptions());
+    return this.canRunQuery() && this.http.post(this.getUrl(resource), data, this.getRequestOptions())
+      .catch((error: any) => {
+        return this.processError(error);
+      });
   }
 
   public put(resource, data) {
-    return this.http.put(this.getUrl(resource), data, this.getRequestOptions());
+    return this.http.put(this.getUrl(resource), data, this.getRequestOptions())
+      .catch((error: any) => {
+        return this.processError(error);
+      });
   }
 
-  private processError(error: any) {
-    if (error.status === 401) {
+  private processError(response: any) {
+    if (response.status === 401) {
       this.userService.relogin();
     }
-    if (this.terminateErrorCodes.indexOf(error.status) > -1) {
-      this._appState.notifyDataChanged('httpError', error.status);
+    if (this.terminateErrorCodes.indexOf(response.status) > -1) {
+      const error = response.json();
+      this._appState.notifyDataChanged('httpError', new RestError(error.code, error.errors[0].message));
     }
     return Observable.empty();
   }
