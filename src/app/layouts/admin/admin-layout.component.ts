@@ -18,7 +18,7 @@ export class AdminLayoutComponent implements OnInit {
   public error: RestError = null;
   location: Location;
 
-  constructor(location: Location, private _appState: AppState, private router: Router, protected httpClient: HttpClient) {
+  constructor(location: Location, private _appState: AppState, private router: Router, public httpClient: HttpClient) {
     this.location = location;
     this._appState.get('httpError').subscribe((error: RestError) => this.error = error ? error : null);
     this.router.events.subscribe((event) => {
