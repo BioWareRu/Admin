@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, NavigationEnd} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import {NavItem, NavItemType} from '../../md/md.module';
 import {Location} from '@angular/common';
 import {AppState} from '../../../core/AppState';
 import {RestError} from '../../../models/RestError';
-import {HttpClient} from '../../../core/HttpClient';
 
 declare var $: any;
 
@@ -17,13 +16,20 @@ export class AdminLayoutComponent implements OnInit {
   public navItems: NavItem[];
   public error: RestError = null;
   location: Location;
+  public loading = false;
 
-  constructor(location: Location, private _appState: AppState, private router: Router, public httpClient: HttpClient) {
+  constructor(location: Location, private _appState: AppState, private router: Router) {
     this.location = location;
     this._appState.get('httpError').subscribe((error: RestError) => this.error = error ? error : null);
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.error = null;
+      }
+    });
+    this._appState.get('loading').subscribe((loading: boolean) => {
+      if (loading !== null) {
+        console.log(loading);
+        this.loading = loading;
       }
     });
   }

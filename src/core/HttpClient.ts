@@ -5,7 +5,6 @@ import {Observable} from 'rxjs/Observable';
 import {environment} from '../environments/environment';
 import {AppState} from './AppState';
 import {RestError} from '../models/RestError';
-import {Subscription} from 'rxjs/Subscription';
 import {Subject} from 'rxjs/Subject';
 import {ConnectableObservable} from 'rxjs/Rx';
 
@@ -13,7 +12,6 @@ import {ConnectableObservable} from 'rxjs/Rx';
 export class HttpClient {
 
   private baseUrl: string = environment.apiUrl;
-  public currentSubscription: Subscription;
 
   private terminateErrorCodes = [
     400, 403, 404, 500, 502, 504
@@ -65,12 +63,16 @@ export class HttpClient {
   private getObservable(task: Observable<any>): ConnectableObservable<any> {
     const subject = new Subject();
     const multicasted = task.multicast(subject);
-    this.currentSubscription = multicasted.subscribe();
+    this._appState.notifyDataChanged('loading', true);
+    multicasted.subscribe(() => {
+      this._appState.notifyDataChanged('loading', false);
+    });
     multicasted.connect();
     return multicasted;
   }
 
   private processError(response: any) {
+    this._appState.notifyDataChanged('loading', false);
     if (response.status === 401) {
       this.userService.relogin();
     }
