@@ -3,7 +3,7 @@ import {OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AppState} from './AppState';
 import {Subject} from 'rxjs/Subject';
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 export class ListComponent<T> implements OnInit {
   public currentPage = 1;
@@ -11,6 +11,7 @@ export class ListComponent<T> implements OnInit {
   public totalItems = 0;
   public dataLoaded = false;
   protected sort = '-id';
+  protected title = 'Список';
 
   public items: Subject<T[]>;
 
@@ -28,6 +29,7 @@ export class ListComponent<T> implements OnInit {
         }
         this.load(this.currentPage);
       });
+    this._appState.notifyDataChanged('title', this.title);
   }
 
   public applySort(column: string) {
@@ -45,7 +47,6 @@ export class ListComponent<T> implements OnInit {
 
   public load(page: number) {
     this.service.getList(page, this.itemsPerPage, this.sort).subscribe((res) => {
-      console.log(res.data);
       this.items.next(res.data);
       this.totalItems = res.totalItems;
       this.currentPage = page;

@@ -28,7 +28,6 @@ export class AdminLayoutComponent implements OnInit {
     });
     this._appState.get('loading').subscribe((loading: boolean) => {
       if (loading !== null) {
-        console.log(loading);
         this.loading = loading;
       }
     });

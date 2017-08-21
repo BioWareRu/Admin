@@ -14,6 +14,7 @@ export class NewsListComponent extends ListComponent<News> {
 
   constructor(repository: Repository, router: Router, route: ActivatedRoute, appState: AppState) {
     super(repository.NewsService, router, route, appState);
+    this.title = 'Список новостей';
     this.itemsPerPage = 20;
   }
 }
