@@ -4,39 +4,46 @@
       <div class="col-md-12" [hidden]="!dataLoaded">
         <div class="card">
           <div class="card-header card-header-icon" data-background-color="rose">
-            <i class="material-icons">assignment</i>
+            <i class="material-icons">{{cardIcon}}</i>
           </div>
           <div class="card-content">
-            <h4 class="card-title">Новости</h4>
+            <h4 class="card-title">{{cardTitle}}</h4>
             <div class="content table-responsive">
               <div class="text-center">
                 <pagination-controls (pageChange)="changePage($event)" id="server" previousLabel="Назад"
                                      nextLabel="Вперёд"></pagination-controls>
               </div>
-              <table class="table">
+              <table class="table dataTable">
                 <thead class="text-primary">
                 <tr>
-                  <th><a (click)="applySort('id')">#</a></th>
-                  <th><a (click)="applySort('title')">Заголовок</a></th>
-                  <th><a (click)="applySort('date')">Дата</a></th>
-                  <th>Раздел</th>
-                  <th><a (click)="applySort('authorId')">Автор</a></th>
-                  <th></th>
+                  <th *ngFor="let column of columns"
+                      [ngClass]="{
+                      'sorting_asc':column.Sorted==sortDirection.Asc,
+                      'sorting_desc':column.Sorted==sortDirection.Desc,
+                      'sorting':column.Sortable}"
+                      (click)="column.Sortable?applySort(column.Key):null">
+                    {{column.Title}}
+                  </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr
-                  *ngFor="let newsItem of items | async | paginate: { id: 'server', itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }"
-                  [ngClass]="{'unpublished':newsItem.pub!=1,'sticky':newsItem.sticky===1}"
+                  *ngFor="let item of items | async | paginate: { id: 'server', itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }"
+                  [ngClass]="getRowClass(item)"
                 >
-                  <td>{{newsItem.id}}</td>
-                  <td><a [routerLink]="['/news', newsItem.id, 'edit']">{{newsItem.title}}</a></td>
-                  <td>{{(newsItem.date| amFromUnix) | amTimeAgo}}</td>
-                  <td>{{newsItem.parentName}}</td>
-                  <td>{{newsItem.authorName}}</td>
-                  <td>
-                    <a target="_blank" href="{{newsItem.publicUrl}}"><i class="material-icons">pageview</i></a>
-                    <a href="javascript:;" (click)="deleteItem(newsItem.id)"><i class="material-icons">delete</i></a>
+                  <td *ngFor="let column of columns">
+                    <span *ngIf="column.Type===columnTypes.Text">{{column.getValue(item)}}</span>
+                    <span *ngIf="column.Type===columnTypes.Link"><a [routerLink]="column.getLink(item)">{{column.getValue(item)}}</a></span>
+                    <span
+                      *ngIf="column.Type===columnTypes.TimeAgo">{{(column.getValue(item)| amFromUnix) | amTimeAgo}}</span>
+                    <span *ngIf="column.Type===columnTypes.Actions">
+                      <span *ngFor="let action of column.Actions">
+                        <a *ngIf="action.Type===actionTypes.Click" href="javascript:;" (click)="action.Click(item)"><i
+                          class="material-icons">{{action.Icon}}</i></a>
+                        <a *ngIf="action.Type===actionTypes.ExternalLink" href="{{action.GenerateUrl(item)}}"
+                           target="_blank"><i class="material-icons">{{action.Icon}}</i></a>
+                      </span>
+                    </span>
                   </td>
                 </tr>
                 </tbody>
