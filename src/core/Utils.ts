@@ -72,14 +72,14 @@ export class Utils {
 
     string = string.split('')
       .reduce(function (result, ch) {
-        if (Utils.charMap[ch]) {
+        if (Utils.charMap.hasOwnProperty(ch)) {
           ch = Utils.charMap[ch];
         }
         // allowed
-        ch = ch.replace(options.remove || /[^\w\s$*_+~.()'"!\-:@]/g, '');
         result += ch;
         return result;
       }, '')
+      .replace(options.remove || /[^\w\s$*_+~.()'"!\-:@]/g, '')
       // trim leading/trailing spaces
       .replace(/^\s+|\s+$/g, '')
       // convert spaces
@@ -97,7 +97,7 @@ export class Utils {
     return Utils.slugify(str, {
       replacement: '_',
       lower: true,
-      remove: /[$*_+~.()'"!\-:@]/g
+      remove: /[$*_+~.()'"!\-:@—#%^&]/g
     });
   }
 }
