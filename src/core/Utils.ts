@@ -97,7 +97,7 @@ export class Utils {
     return Utils.slugify(str, {
       replacement: '_',
       lower: true,
-      remove: /[$*_+~.()'"!\-:@—#%^&]/g
+      remove: /[$*_+~.()'"!\-:@—#%^&,/\\`{}[\];?]/g
     });
   }
 }
