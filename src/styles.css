@@ -53,13 +53,21 @@ tr.unpublished {
   display: block;
 }
 
-.ng-busy-backdrop {
-  z-index: 10001;
+.loading-backdrop {
   position: fixed;
+  height: 100%;
+  width: 100%;
+  background: white;
+  z-index: 10001;
+  opacity: 0.6;
 }
 
-ng-busy .loader {
+.loader {
   z-index: 10002;
+}
+
+.loader[hidden] {
+  display: none;
 }
 
 @media (max-width: 991px) {

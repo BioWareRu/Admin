@@ -1,4 +1,5 @@
-import {Component, OnInit, AfterViewInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AppState} from '../../core/AppState';
 
 declare var $: any;
 
@@ -7,10 +8,12 @@ declare var $: any;
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
-  // constructor(private navbarTitleService: NavbarTitleService, private notificationService: NotificationService) { }
-  // constructor(private navbarTitleService: NavbarTitleService) { }
-  public ngOnInit() {
 
+  constructor(private _appState: AppState) {
+  }
+
+  public ngOnInit() {
+    this._appState.notifyDataChanged('title', 'Dashboard');
   }
 
   ngAfterViewInit() {

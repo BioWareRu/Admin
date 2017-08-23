@@ -23,19 +23,7 @@ import {AppState} from '../core/AppState';
 import {SettingsService} from '../services/SettingsService';
 import {AuthGuard} from '../core/AuthGuard';
 import {SettingsResolver} from '../core/SettingsResolver';
-import {BUSY_CONFIG_DEFAULTS, BusyConfig, BusyModule} from 'angular2-busy';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
-const busyConfig: BusyConfig = {
-  message: '',
-  backdrop: true,
-  template: '<svg class="circular" viewBox="25 25 50 50">\n' +
-  '            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>\n' +
-  '        </svg>',
-  delay: 200,
-  minDuration: 600,
-  wrapperClass: 'loader'
-};
 
 @NgModule({
   declarations: [
@@ -51,8 +39,7 @@ const busyConfig: BusyConfig = {
     SidebarModule,
     NavbarModule,
     FooterModule,
-    BrowserAnimationsModule,
-    BusyModule.forRoot(busyConfig)
+    BrowserAnimationsModule
   ],
   providers: [
     HttpClient,

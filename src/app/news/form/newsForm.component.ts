@@ -9,7 +9,8 @@ import {SaveNewsResponse} from '../../../results/News';
 import {Utils} from '../../../core/Utils';
 import {ChildFormComponent} from '../../../core/FormComponent';
 import {Parent} from '../../../models/Parent';
-import {CustomFormsModule, CustomValidators} from "ng2-validation";
+import {CustomValidators} from 'ng2-validation';
+import {AppState} from '../../../core/AppState';
 
 @Component({
   moduleId: module.id,
@@ -21,7 +22,7 @@ export class NewsFormComponent extends ChildFormComponent<NewsFormModel, SaveNew
   protected isPublished = false;
   private newsId: number;
 
-  constructor(public route: ActivatedRoute, protected repository: Repository, private router: Router) {
+  constructor(public route: ActivatedRoute, protected repository: Repository, private router: Router, private _appState: AppState) {
     super(repository);
   }
 
@@ -33,6 +34,7 @@ export class NewsFormComponent extends ChildFormComponent<NewsFormModel, SaveNew
     const id: Observable<number> = this.route.params.map(p => p.id);
     id.subscribe(newsId => {
       if (newsId > 0) {
+        this._appState.notifyDataChanged('title', 'Редактирование новости');
         this.newsId = newsId;
         this.repository.NewsService.get(newsId).subscribe(news => {
           this.model = <NewsFormModel>news;
@@ -40,6 +42,7 @@ export class NewsFormComponent extends ChildFormComponent<NewsFormModel, SaveNew
           this.loadFormData();
         });
       } else {
+        this._appState.notifyDataChanged('title', 'Добавление новости');
         this.isNew = true;
         this.model = new NewsFormModel();
         this.loadFormData();

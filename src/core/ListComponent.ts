@@ -1,8 +1,9 @@
 import {BaseService} from './BaseService';
-import {Observable} from 'rxjs/Rx';
 import {OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AppState} from './AppState';
+import {Subject} from 'rxjs/Subject';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 export class ListComponent<T> implements OnInit {
   public currentPage = 1;
@@ -10,13 +11,15 @@ export class ListComponent<T> implements OnInit {
   public totalItems = 0;
   public dataLoaded = false;
   protected sort = '-id';
+  protected title = 'Список';
 
-  public items: Observable<T[]>;
+  public items: Subject<T[]>;
 
   constructor(private service: BaseService<T>, private router: Router, private route: ActivatedRoute, private _appState: AppState) {
   }
 
   ngOnInit() {
+    this.items = new BehaviorSubject<T[]>([]);
     this.route.queryParamMap
       .map(params => params.get('page'))
       .subscribe(page => {
@@ -26,6 +29,7 @@ export class ListComponent<T> implements OnInit {
         }
         this.load(this.currentPage);
       });
+    this._appState.notifyDataChanged('title', this.title);
   }
 
   public applySort(column: string) {
@@ -37,14 +41,17 @@ export class ListComponent<T> implements OnInit {
     this.load(this.currentPage);
   }
 
-  public load(page: number) {
+  public changePage(page: number) {
     this.router.navigate([], {queryParams: {page: page}, relativeTo: this.route});
-    this.items = this.service.getList(page, this.itemsPerPage, this.sort).do((res) => {
+  }
+
+  public load(page: number) {
+    this.service.getList(page, this.itemsPerPage, this.sort).subscribe((res) => {
+      this.items.next(res.data);
       this.totalItems = res.totalItems;
       this.currentPage = page;
       this.dataLoaded = true;
-      this._appState.notifyDataChanged('scrollToTop', true);
-    }).map((res) => res.data);
+    });
   }
 
   public deleteItem(id: number) {
