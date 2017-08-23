@@ -18,6 +18,10 @@ tr.unpublished {
   opacity: 0.6;
 }
 
+tr.sticky td {
+  font-weight: bold;
+}
+
 .form-element.element-invalid label {
   color: #f55a4e;
 }

@@ -20,6 +20,7 @@ import {AppState} from '../../../core/AppState';
 export class NewsFormComponent extends ChildFormComponent<NewsFormModel, SaveNewsResponse> implements OnInit {
 
   protected isPublished = false;
+  protected isPinned = false;
   private newsId: number;
 
   constructor(public route: ActivatedRoute, protected repository: Repository, private router: Router, private _appState: AppState) {
@@ -39,6 +40,7 @@ export class NewsFormComponent extends ChildFormComponent<NewsFormModel, SaveNew
         this.repository.NewsService.get(newsId).subscribe(news => {
           this.model = <NewsFormModel>news;
           this.isPublished = news.pub === 1;
+          this.isPinned = news.sticky === 1;
           this.loadFormData();
         });
       } else {
@@ -109,5 +111,37 @@ export class NewsFormComponent extends ChildFormComponent<NewsFormModel, SaveNew
     }, err => {
       this.isPublished = true;
     });
+  }
+
+  protected pin() {
+    this.repository.NewsService.pin(this.newsId).subscribe((res: boolean) => {
+      this.isPinned = res;
+    }, err => {
+      this.isPinned = false;
+    });
+  }
+
+  protected unpin() {
+    this.repository.NewsService.unpin(this.newsId).subscribe((res: boolean) => {
+      this.isPinned = res;
+    }, err => {
+      this.isPinned = true;
+    });
+  }
+
+  protected canPublish(): boolean {
+    return !this.isNew && !this.isPublished;
+  }
+
+  protected canPin(): boolean {
+    return !this.isNew && !this.isPinned;
+  }
+
+  protected canUnPublish(): boolean {
+    return !this.isNew && this.isPublished;
+  }
+
+  protected canUnPin(): boolean {
+    return !this.isNew && this.isPinned;
   }
 }

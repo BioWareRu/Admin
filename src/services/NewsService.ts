@@ -43,4 +43,12 @@ export class NewsService extends BaseService<News> {
   public unpublish(id: number): Observable<boolean> {
     return this.httpClient.put('news/' + id + '/unpublish', {}).map((res: Response) => false);
   }
+
+  public pin(id: number): Observable<boolean> {
+    return this.httpClient.put('news/' + id + '/pin', {}).map((res: Response) => true);
+  }
+
+  public unpin(id: number): Observable<boolean> {
+    return this.httpClient.put('news/' + id + '/unpin', {}).map((res: Response) => false);
+  }
 }
