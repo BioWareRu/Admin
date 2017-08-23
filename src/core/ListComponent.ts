@@ -139,7 +139,6 @@ export class ListTableColumn<T> {
   }
 
   protected getValue(model: T) {
-    console.log('get value');
     if (this.getter) {
       return this.getter(model);
     }
