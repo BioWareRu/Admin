@@ -11,14 +11,14 @@ export class ListComponent<T> implements OnInit {
   public totalItems = 0;
   public dataLoaded = false;
   public items: Subject<T[]>;
-  protected sort = '-id';
+  public cardTitle = '';
+  public cardIcon = '';
+  public columns: ListTableColumn<T>[];
+  public sortDirection = SortDirection;
+  public columnTypes = ListTableColumnType;
+  public actionTypes = ListTableColumnActionType;
   protected title = 'Список';
-  protected cardTitle = '';
-  protected cardIcon = '';
-  protected columns: ListTableColumn<T>[];
-  protected sortDirection = SortDirection;
-  protected columnTypes = ListTableColumnType;
-  protected actionTypes = ListTableColumnActionType;
+  private sort = '-id';
 
   constructor(private service: BaseService<T>, private router: Router, private route: ActivatedRoute, private _appState: AppState) {
   }
@@ -30,11 +30,6 @@ export class ListComponent<T> implements OnInit {
     }
     return sortKey;
   }
-
-  private reload() {
-    this.router.navigate([], {queryParams: {page: this.currentPage, sort: this.sort}, relativeTo: this.route});
-  }
-
 
   ngOnInit() {
     this.items = new BehaviorSubject<T[]>([]);
@@ -93,6 +88,10 @@ export class ListComponent<T> implements OnInit {
   public getRowClass(model: T): { [key: string]: boolean } {
     return {};
   }
+
+  private reload() {
+    this.router.navigate([], {queryParams: {page: this.currentPage, sort: this.sort}, relativeTo: this.route});
+  }
 }
 
 export class ListTableColumn<T> {
@@ -105,21 +104,6 @@ export class ListTableColumn<T> {
 
   private getter: (model: T) => {};
   private linkGetter: (model: T) => {};
-
-  protected getValue(model: T) {
-    console.log('get value');
-    if (this.getter) {
-      return this.getter(model);
-    }
-    return model.hasOwnProperty(this.Key) ? model[this.Key] : null;
-  }
-
-  protected getLink(model: T) {
-    if (this.linkGetter) {
-      return this.linkGetter(model);
-    }
-    return null;
-  }
 
   constructor(key: string, title: string, type: ListTableColumnType = ListTableColumnType.Text) {
     this.Key = key;
@@ -152,6 +136,21 @@ export class ListTableColumn<T> {
     this.Type = ListTableColumnType.Actions;
     this.Actions.push(action);
     return this;
+  }
+
+  protected getValue(model: T) {
+    console.log('get value');
+    if (this.getter) {
+      return this.getter(model);
+    }
+    return model.hasOwnProperty(this.Key) ? model[this.Key] : null;
+  }
+
+  protected getLink(model: T) {
+    if (this.linkGetter) {
+      return this.linkGetter(model);
+    }
+    return null;
   }
 }
 
