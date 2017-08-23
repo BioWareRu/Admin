@@ -38,9 +38,11 @@
                       *ngIf="column.Type===columnTypes.TimeAgo">{{(column.getValue(item)| amFromUnix) | amTimeAgo}}</span>
                     <span *ngIf="column.Type===columnTypes.Actions">
                       <span *ngFor="let action of column.Actions">
-                        <a *ngIf="action.Type===actionTypes.Click" href="javascript:;" (click)="action.Click(item)"><i
+                        <a *ngIf="action.Type===actionTypes.Click" title="{{action.Title}}" href="javascript:;"
+                           (click)="action.Click(item)"><i
                           class="material-icons">{{action.Icon}}</i></a>
-                        <a *ngIf="action.Type===actionTypes.ExternalLink" href="{{action.GenerateUrl(item)}}"
+                        <a *ngIf="action.Type===actionTypes.ExternalLink" title="{{action.Title}}"
+                           href="{{action.GenerateUrl(item)}}"
                            target="_blank"><i class="material-icons">{{action.Icon}}</i></a>
                       </span>
                     </span>
