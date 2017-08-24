@@ -96,10 +96,6 @@ export class ErrorsInterceptor implements HttpInterceptor {
     }, (error) => {
       return this.processError(error);
     });
-    /*.catch((error: any) => {
-          return this.processError(error);
-        })*/
-    ;
   }
 
   private processError(response: any) {
