@@ -1,10 +1,10 @@
 import {Observable} from 'rxjs/Rx';
-import {HttpClient} from './HttpClient';
+import {RestClient} from './HttpClient';
 import {ListResult} from './ListResult';
 
 export abstract class BaseService<T> {
 
-  constructor(protected httpClient: HttpClient) {
+  constructor(protected httpClient: RestClient) {
   }
 
   protected getAll(resource: string, page: number, perPage: number, sort) {

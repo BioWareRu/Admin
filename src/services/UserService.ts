@@ -16,12 +16,15 @@ export class UserService {
   private userLoaded = false;
 
   constructor(private oauthService: OAuthService, private _appState: AppState) {
+    this.oauthService.oidc = false;
+    this.oauthService.setStorage(localStorage);
     this.oauthService.loginUrl = 'https://forum.bioware.ru/applications/oauth2server/interface/oauth/authorize.php';
     this.oauthService.tokenEndpoint = 'https://forum.bioware.ru/applications/oauth2server/interface/oauth/token.php';
     this.oauthService.userinfoEndpoint = 'https://forum.bioware.ru/applications/oauth2server/interface/oauth/me.php';
 
     // URL of the SPA to redirect the user to after login
     this.oauthService.redirectUri = window.location.origin;
+    this.oauthService.scope = '';
 
     // The SPA's id. Register SPA with this id at the auth-server
     this.oauthService.clientId = environment.oauthClientId;

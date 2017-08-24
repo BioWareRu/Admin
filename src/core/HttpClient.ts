@@ -1,23 +1,17 @@
 import {Injectable} from '@angular/core';
-import {Headers, Http, RequestOptionsArgs} from '@angular/http';
 import {UserService} from '../services/UserService';
 import {Observable} from 'rxjs/Observable';
 import {environment} from '../environments/environment';
 import {AppState} from './AppState';
 import {RestError} from '../models/RestError';
-import {Subject} from 'rxjs/Subject';
-import {ConnectableObservable} from 'rxjs/Rx';
+import {HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
 
 @Injectable()
-export class HttpClient {
+export class RestClient {
 
   private baseUrl: string = environment.apiUrl;
 
-  private terminateErrorCodes = [
-    400, 403, 404, 500, 502, 504
-  ];
-
-  constructor(private http: Http, private userService: UserService, private _appState: AppState) {
+  constructor(private httpClient: HttpClient) {
   }
 
   public static encodeQueryData(data) {
@@ -32,43 +26,80 @@ export class HttpClient {
   }
 
   public get (resource, params) {
-
-    return this.getObservable(this.canRunQuery() && this.http.get(this.getUrl(resource, params), this.getRequestOptions())
-      .catch((error: any) => {
-        return this.processError(error);
-      }));
+    return this.httpClient.get(this.getUrl(resource, params));
   }
 
   public post(resource, data) {
-    return this.getObservable(this.canRunQuery() && this.http.post(this.getUrl(resource), data, this.getRequestOptions())
-      .catch((error: any) => {
-        return this.processError(error);
-      }));
+    return this.httpClient.post(this.getUrl(resource), data);
   }
 
   public put(resource, data) {
-    return this.getObservable(this.http.put(this.getUrl(resource), data, this.getRequestOptions())
-      .catch((error: any) => {
-        return this.processError(error);
-      }));
+    return this.httpClient.put(this.getUrl(resource), data);
   }
 
   public delete(resource) {
-    return this.getObservable(this.http.delete(this.getUrl(resource), this.getRequestOptions())
-      .catch((error: any) => {
-        return this.processError(error);
-      }));
+    return this.httpClient.delete(this.getUrl(resource));
   }
 
-  private getObservable(task: Observable<any>): ConnectableObservable<any> {
-    const subject = new Subject();
-    const multicasted = task.multicast(subject);
+  private getUrl(resource: string, params?: object) {
+    let url = this.baseUrl + resource + '?';
+    if (params) {
+      url += RestClient.encodeQueryData(params);
+    }
+    return url;
+  }
+}
+
+@Injectable()
+export class AuthenticationInterceptor implements HttpInterceptor {
+  constructor(private userService: UserService) {
+  }
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (this.userService.isLoggedIn()) {
+      const authReq = req.clone({headers: req.headers.set('Authorization', this.userService.getAuthorizationHeader())});
+      return next.handle(authReq);
+    } else {
+      this.userService.relogin();
+    }
+  }
+
+}
+
+@Injectable()
+export class LoadingInterceptor implements HttpInterceptor {
+  constructor(private _appState: AppState) {
+  }
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this._appState.notifyDataChanged('loading', true);
-    multicasted.subscribe(() => {
-      this._appState.notifyDataChanged('loading', false);
+    return next.handle(req).do((response) => {
+      if (response instanceof HttpResponse) {
+        this._appState.notifyDataChanged('loading', false);
+      }
     });
-    multicasted.connect();
-    return multicasted;
+  }
+}
+
+@Injectable()
+export class ErrorsInterceptor implements HttpInterceptor {
+  private terminateErrorCodes = [
+    400, 403, 404, 500, 502, 504
+  ];
+
+  constructor(private userService: UserService, private _appState: AppState) {
+  }
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next.handle(req).do(() => {
+
+    }, (error) => {
+      return this.processError(error);
+    });
+    /*.catch((error: any) => {
+          return this.processError(error);
+        })*/
+    ;
   }
 
   private processError(response: any) {
@@ -77,38 +108,13 @@ export class HttpClient {
       this.userService.relogin();
     }
     if (this.terminateErrorCodes.indexOf(response.status) > -1) {
-      const error = response.json();
-      this._appState.notifyDataChanged('httpError', new RestError(error.code, error.errors[0].message));
+      if (response.error) {
+        const error = response.error;
+        this._appState.notifyDataChanged('httpError', new RestError(error.code, error.errors[0].message));
+      } else {
+        this._appState.notifyDataChanged('httpError', new RestError(response.status, response.message));
+      }
     }
-    return Observable.empty();
-  }
-
-  private canRunQuery() {
-    return this.userService.isLoggedIn();
-  }
-
-  private createAuthorizationHeader(headers: Headers) {
-    if (this.userService.isLoggedIn()) {
-      headers.append('Authorization', this.userService.getAuthorizationHeader());
-    } else {
-      this.userService.relogin();
-    }
-  }
-
-  private getRequestOptions(): RequestOptionsArgs {
-    const headers = new Headers();
-    this.createAuthorizationHeader(headers);
-    const options: RequestOptionsArgs = {};
-    options.headers = headers;
-
-    return options;
-  }
-
-  private getUrl(resource: string, params?: object) {
-    let url = this.baseUrl + resource + '?';
-    if (params) {
-      url += HttpClient.encodeQueryData(params);
-    }
-    return url;
+    return Observable.empty;
   }
 }

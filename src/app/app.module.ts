@@ -4,13 +4,12 @@ import {RouterModule} from '@angular/router';
 import {AppComponent} from './app.component';
 import {AdminLayoutComponent} from './layouts/admin/admin-layout.component';
 import {AppRoutes} from './app.routing';
-import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
 import {SidebarModule} from './sidebar/sidebar.module';
 import {FooterModule} from './shared/footer/footer.module';
 import {NavbarModule} from './shared/navbar/navbar.module';
 import {UserService} from '../services/UserService';
-import {HttpClient} from '../core/HttpClient';
+import {AuthenticationInterceptor, ErrorsInterceptor, LoadingInterceptor, RestClient} from '../core/HttpClient';
 import {OAuthModule} from 'angular-oauth2-oidc';
 import {NewsService} from '../services/NewsService';
 import {Repository} from '../core/Repository';
@@ -24,6 +23,8 @@ import {SettingsService} from '../services/SettingsService';
 import {AuthGuard} from '../core/AuthGuard';
 import {SettingsResolver} from '../core/SettingsResolver';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HttpModule} from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -36,13 +37,14 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     RouterModule.forRoot(AppRoutes),
     OAuthModule.forRoot(),
     HttpModule,
+    HttpClientModule,
     SidebarModule,
     NavbarModule,
     FooterModule,
     BrowserAnimationsModule
   ],
   providers: [
-    HttpClient,
+    RestClient,
     UserService,
     NewsService,
     ArticlesService,
@@ -53,7 +55,22 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     SettingsService,
     AppState,
     AuthGuard,
-    SettingsResolver
+    SettingsResolver,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorsInterceptor,
+      multi: true,
+    }
   ],
   bootstrap: [AppComponent]
 })

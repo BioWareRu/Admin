@@ -4,6 +4,7 @@ import {Game} from '../models/Game';
 import {Developer} from '../models/Developer';
 import {Topic} from '../models/Topic';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
 import {Parent} from '../models/Parent';
 import {Child} from '../models/Child';
 import {Repository} from './Repository';
@@ -100,7 +101,7 @@ export abstract class FormComponent<TModel, TResultModel> {
 
   protected handleSubmitError(response: any) {
     if (response.status === 422) {
-      const data = response.json();
+      const data = response.error;
       data.errors.forEach((error) => {
         (<BioFormControl>this.formGroup.controls[error.field]).ServerErrors.push(error.message);
         this.formGroup.controls[error.field].setErrors({'server': true});
