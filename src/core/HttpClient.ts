@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {UserService} from '../services/UserService';
 import {Observable} from 'rxjs/Observable';
 import {environment} from '../environments/environment';
 import {AppState} from './AppState';
 import {RestError} from '../models/RestError';
 import {HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
+import {AuthService} from '../services/AuthService';
 
 @Injectable()
 export class RestClient {
@@ -52,15 +52,15 @@ export class RestClient {
 
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
-  constructor(private userService: UserService) {
+  constructor(private _authService: AuthService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.userService.isLoggedIn()) {
-      const authReq = req.clone({headers: req.headers.set('Authorization', this.userService.getAuthorizationHeader())});
+    if (this._authService.isLoggedIn()) {
+      const authReq = req.clone({headers: req.headers.set('Authorization', this._authService.getAuthorizationHeader())});
       return next.handle(authReq);
     } else {
-      this.userService.relogin();
+      this._authService.relogin();
     }
   }
 
@@ -87,7 +87,7 @@ export class ErrorsInterceptor implements HttpInterceptor {
     400, 403, 404, 500, 502, 504
   ];
 
-  constructor(private userService: UserService, private _appState: AppState) {
+  constructor(private _authService: AuthService, private _appState: AppState) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -101,7 +101,7 @@ export class ErrorsInterceptor implements HttpInterceptor {
   private processError(response: any) {
     this._appState.notifyDataChanged('loading', false);
     if (response.status === 401) {
-      this.userService.relogin();
+      this._authService.relogin();
     }
     if (this.terminateErrorCodes.indexOf(response.status) > -1) {
       if (response.error) {

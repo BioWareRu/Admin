@@ -2,19 +2,24 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, CanActivateChild, RouterStateSnapshot} from '@angular/router';
 import {UserService} from '../services/UserService';
 import {Observable} from 'rxjs/Observable';
+import {AuthService} from '../services/AuthService';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
 
-  constructor(private _userService: UserService) {
+  constructor(private _userService: UserService, private _authService: AuthService) {
 
   }
 
   public canActivate(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this._userService.isLoggedIn()) {
-      return true;
+    if (this._authService.isLoggedIn()) {
+      if (this._userService.isUserLoaded()) {
+        return true;
+      } else {
+        return this._userService.loadUser();
+      }
     } else {
-      this._userService.login({'currentUrl': location.href});
+      this._authService.login({'currentUrl': location.href});
     }
   }
 

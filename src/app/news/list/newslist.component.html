@@ -33,7 +33,8 @@
                 >
                   <td *ngFor="let column of columns">
                     <span *ngIf="column.Type===columnTypes.Text">{{column.getValue(item)}}</span>
-                    <span *ngIf="column.Type===columnTypes.Link"><a [routerLink]="column.getLink(item)">{{column.getValue(item)}}</a></span>
+                    <span *ngIf="column.Type===columnTypes.Link"><a [routerLink]="column.getLink(item)"
+                                                                    [class.disabled]="column.Disabled">{{column.getValue(item)}}</a></span>
                     <span
                       *ngIf="column.Type===columnTypes.TimeAgo">{{(column.getValue(item)| amFromUnix) | amTimeAgo}}</span>
                     <span *ngIf="column.Type===columnTypes.Actions">

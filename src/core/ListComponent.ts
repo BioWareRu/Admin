@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AppState} from './AppState';
 import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {UserRights, UserService} from '../services/UserService';
 
 export class ListComponent<T> implements OnInit {
   public currentPage = 1;
@@ -17,10 +18,12 @@ export class ListComponent<T> implements OnInit {
   public sortDirection = SortDirection;
   public columnTypes = ListTableColumnType;
   public actionTypes = ListTableColumnActionType;
+  public userRights = UserRights;
   protected title = 'Список';
   private sort = '-id';
 
-  constructor(private service: BaseService<T>, private router: Router, private route: ActivatedRoute, private _appState: AppState) {
+  constructor(private service: BaseService<T>, private router: Router,
+              private route: ActivatedRoute, private _appState: AppState, private _userService: UserService) {
   }
 
   private static getSortKey(column: string, desc: boolean = false): string {
@@ -92,6 +95,10 @@ export class ListComponent<T> implements OnInit {
   private reload() {
     this.router.navigate([], {queryParams: {page: this.currentPage, sort: this.sort}, relativeTo: this.route});
   }
+
+  public can(right: UserRights): boolean {
+    return this._userService.hasRight(right);
+  }
 }
 
 export class ListTableColumn<T> {
@@ -101,6 +108,7 @@ export class ListTableColumn<T> {
   public Sorted: SortDirection;
   public Type: ListTableColumnType;
   public Actions: ListTableColumnAction<T>[] = [];
+  public Disabled: boolean;
 
   private getter: (model: T) => {};
   private linkGetter: (model: T) => {};
@@ -135,6 +143,11 @@ export class ListTableColumn<T> {
   public AddAction(action: ListTableColumnAction<T>): ListTableColumn<T> {
     this.Type = ListTableColumnType.Actions;
     this.Actions.push(action);
+    return this;
+  }
+
+  public setDisabled(disabled: boolean): ListTableColumn<T> {
+    this.Disabled = disabled;
     return this;
   }
 

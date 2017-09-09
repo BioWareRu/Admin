@@ -74,6 +74,11 @@ tr.sticky td {
   display: none;
 }
 
+a.disabled {
+  cursor: not-allowed;
+  color: grey;
+}
+
 @media (max-width: 991px) {
   .card .card-content {
     padding-top: 50px;

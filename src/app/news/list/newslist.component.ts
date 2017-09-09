@@ -4,7 +4,7 @@ import {News} from '../../../models/News';
 import {Repository} from '../../../core/Repository';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AppState} from '../../../core/AppState';
-import {Title} from '@angular/platform-browser';
+import {UserService} from '../../../services/UserService';
 
 @Component({
   moduleId: module.id,
@@ -14,15 +14,17 @@ import {Title} from '@angular/platform-browser';
 })
 export class NewsListComponent extends ListComponent<News> {
 
-  constructor(repository: Repository, router: Router, route: ActivatedRoute, appState: AppState) {
-    super(repository.NewsService, router, route, appState);
+  constructor(repository: Repository, router: Router, route: ActivatedRoute, appState: AppState, userService: UserService) {
+    super(repository.NewsService, router, route, appState, userService);
     this.title = 'Список новостей';
     this.cardTitle = 'Новости';
     this.cardIcon = 'assignment';
     this.itemsPerPage = 20;
     this.columns = [
       new ListTableColumn<News>('id', '#').setSortable(),
-      new ListTableColumn<News>('title', 'Заголовок').setSortable().setLinkGetter(news => ['/news', news.id, 'edit']),
+      new ListTableColumn<News>('title', 'Заголовок').setSortable()
+        .setLinkGetter(news => ['/news', news.id, 'edit'])
+        .setDisabled(!this.can(this.userRights.AlwaysForbidden)),
       new ListTableColumn<News>('date', 'Дата', ListTableColumnType.TimeAgo).setSortable(),
       new ListTableColumn<News>('parent', 'Раздел').setCustomGetter((news) => news.parentName),
       new ListTableColumn<News>('authorId', 'Автор').setCustomGetter((news) => news.authorName).setSortable(),

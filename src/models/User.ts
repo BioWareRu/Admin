@@ -1,11 +1,10 @@
+import {JsonProperty} from 'json-object-mapper';
+
 export class User {
-  public id: number;
-  public username: string;
-  public displayName: string;
-  public profileUrl: string;
-  public avatar: string;
-  public email: string;
-  public group: number;
-  public groupOthers: string[];
-  public reputation: number;
+  @JsonProperty()
+  public id: number = undefined;
+  @JsonProperty()
+  public name: string = undefined;
+  @JsonProperty()
+  public avatarUrl: string = undefined;
 }
