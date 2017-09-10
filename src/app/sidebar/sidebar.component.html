@@ -124,7 +124,18 @@
         </a>
         <div class="collapse" id="articles">
           <ul class="nav">
-
+            <li routerLinkActive="active">
+              <a [routerLink]="[menuItems[3].path]">
+                <span class="sidebar-mini">Н</span>
+                <span class="sidebar-normal">{{menuItems[3].title}}</span>
+              </a>
+            </li>
+            <li routerLinkActive="active">
+              <a [routerLink]="[menuItems[4].path]">
+                <span class="sidebar-mini">Д</span>
+                <span class="sidebar-normal">{{menuItems[4].title}}</span>
+              </a>
+            </li>
           </ul>
         </div>
       </li>

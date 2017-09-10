@@ -1,0 +1,68 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12" [hidden]="!dataLoaded">
+        <div class="card">
+          <div class="card-header card-header-icon" data-background-color="rose">
+            <i class="material-icons">{{cardIcon}}</i>
+          </div>
+          <div class="card-content">
+            <h4 class="card-title">{{cardTitle}}</h4>
+            <div class="content table-responsive">
+              <div class="text-center">
+                <pagination-controls (pageChange)="changePage($event)" id="server" previousLabel="Назад"
+                                     nextLabel="Вперёд"></pagination-controls>
+              </div>
+              <table class="table dataTable">
+                <thead class="text-primary">
+                <tr>
+                  <th *ngFor="let column of columns"
+                      [ngClass]="{
+                      'sorting_asc':column.Sorted==sortDirection.Asc,
+                      'sorting_desc':column.Sorted==sortDirection.Desc,
+                      'sorting':column.Sortable}"
+                      (click)="column.Sortable?applySort(column.Key):null">
+                    {{column.Title}}
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr
+                  *ngFor="let item of items | async | paginate: { id: 'server', itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }"
+                  [ngClass]="getRowClass(item)"
+                >
+                  <td *ngFor="let column of columns">
+                    <span *ngIf="column.Type===columnTypes.Text">{{column.getValue(item)}}</span>
+                    <span *ngIf="column.Type===columnTypes.Link"><a [routerLink]="column.getLink(item)"
+                                                                    [class.disabled]="column.Disabled">{{column.getValue(item)}}</a></span>
+                    <span
+                      *ngIf="column.Type===columnTypes.TimeAgo">{{(column.getValue(item)| amFromUnix) | amTimeAgo}}</span>
+                    <span *ngIf="column.Type===columnTypes.Actions">
+                      <span *ngFor="let action of column.Actions">
+                        <a *ngIf="action.Type===actionTypes.Click" title="{{action.Title}}" href="javascript:;"
+                           (click)="action.Click(item)"><i
+                          class="material-icons">{{action.Icon}}</i></a>
+                        <a *ngIf="action.Type===actionTypes.ExternalLink" title="{{action.Title}}"
+                           href="{{action.GenerateUrl(item)}}"
+                           target="_blank"><i class="material-icons">{{action.Icon}}</i></a>
+                      </span>
+                    </span>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+              <div class="text-center">
+                <pagination-controls (pageChange)="changePage($event)" id="server" previousLabel="Назад"
+                                     nextLabel="Вперёд"></pagination-controls>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div [hidden]="dataLoaded">
+        Загрузка данных
+      </div>
+    </div>
+  </div>
+</div>

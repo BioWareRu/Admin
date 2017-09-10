@@ -1,0 +1,65 @@
+<div class="main-content">
+  <div class="container-fluid" *ngIf="formLoaded">
+    <div class="form-buttons">
+      <button *ngIf="canUnPublish()" [disabled]="hasChanges" (click)="unpublish()"
+              class="btn btn-fill btn-danger">Скрыть
+      </button>
+      <button *ngIf="canPublish()" [disabled]="hasChanges" (click)="publish()"
+              class="btn btn-fill btn-primary">
+        Опубликовать
+      </button>
+      <button (click)="save()" [disabled]="formGroup.invalid||!hasChanges"
+              class="btn btn-fill"
+              [ngClass]="{'btn-rose': !(formGroup.invalid||hasErrors)&&hasChanges, 'btn-warning': formGroup.invalid||hasErrors, 'btn-success': success}">
+        {{success?"Сохранено!":(formGroup.invalid||hasErrors?"Ошибки!":"Сохранить")}}
+      </button>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <form class="form-horizontal" [formGroup]="formGroup">
+            <div class="card-header card-header-text" data-background-color="rose">
+              <h4 class="card-title">{{model.title}}</h4>
+            </div>
+            <div class="card-content">
+              <text-input [FormGroup]="formGroup" [FieldName]="'title'"
+                          [Label]="'Название статьи'"></text-input>
+              <drop-down-input [FormGroup]="formGroup" [FieldName]="'parent'" [Label]="'Раздел'"
+                               [OptGroups]="parentOptGroups"
+                               [Comparator]="compareParents"></drop-down-input>
+              <drop-down-input [FormGroup]="formGroup" [FieldName]="'cat'" [Label]="'Категория'"
+                               [OptGroups]="catOptGroups" [Comparator]="compareCats"></drop-down-input>
+              <text-input [FormGroup]="formGroup" [FieldName]="'url'"
+                          [Label]="'Адрес'"></text-input>
+              <text-input [FormGroup]="formGroup" [FieldName]="'source'"
+                          [Label]="'Источник'" [Type]="'url'"></text-input>
+              <cke-input [FormGroup]="formGroup" [FieldName]="'text'"
+                         [Label]="'Текст'"></cke-input>
+              <cke-input [FormGroup]="formGroup" [FieldName]="'announce'"
+                         [Label]="'Анонс'"></cke-input>
+              <div class="row">
+                <label class="col-md-2"></label>
+                <div class="col-md-10">
+                  <div class="form-group form-button text-right">
+                    <button *ngIf="canUnPublish()" [disabled]="hasChanges" (click)="unpublish()"
+                            class="btn btn-fill btn-danger">Скрыть
+                    </button>
+                    <button *ngIf="canPublish()" [disabled]="hasChanges" (click)="publish()"
+                            class="btn btn-fill btn-primary">
+                      Опубликовать
+                    </button>
+                    <button (click)="save()" [disabled]="formGroup.invalid||!hasChanges"
+                            class="btn btn-fill"
+                            [ngClass]="{'btn-rose': !(formGroup.invalid||hasErrors)&&hasChanges, 'btn-warning': formGroup.invalid||hasErrors, 'btn-success': success}">
+                      {{success?"Сохранено!":(formGroup.invalid||hasErrors?"Ошибки!":"Сохранить")}}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

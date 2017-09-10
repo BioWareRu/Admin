@@ -4,11 +4,13 @@ import { GamesService } from '../services/GamesService';
 import { DevelopersService } from '../services/DevelopersService';
 import { TopicsService } from '../services/TopicsService';
 import { Injectable } from '@angular/core';
+import {ArticlesCategoriesService} from '../services/ArticleCategoriesService';
 
 @Injectable()
 export class Repository {
   public constructor(private _newsService: NewsService,
                      private _articlesService: ArticlesService,
+                     private _articleCategoriesService: ArticlesCategoriesService,
                      private _gamesService: GamesService,
                      private _developersService: DevelopersService,
                      private _topicsService: TopicsService) {
@@ -21,6 +23,10 @@ export class Repository {
 
   get ArticlesService(): ArticlesService {
     return this._articlesService;
+  }
+
+  get ArticleCategoriesService(): ArticlesCategoriesService {
+    return this._articleCategoriesService;
   }
 
   get GamesService(): GamesService {

@@ -24,7 +24,7 @@ export class NewsListComponent extends ListComponent<News> {
       new ListTableColumn<News>('id', '#').setSortable(),
       new ListTableColumn<News>('title', 'Заголовок').setSortable()
         .setLinkGetter(news => ['/news', news.id, 'edit'])
-        .setDisabled(!this.can(this.userRights.AlwaysForbidden)),
+        .setDisabled(!this.can(this.userRights.AddNews)),
       new ListTableColumn<News>('date', 'Дата', ListTableColumnType.TimeAgo).setSortable(),
       new ListTableColumn<News>('parent', 'Раздел').setCustomGetter((news) => news.parentName),
       new ListTableColumn<News>('authorId', 'Автор').setCustomGetter((news) => news.authorName).setSortable(),

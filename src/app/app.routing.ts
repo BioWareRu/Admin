@@ -22,6 +22,10 @@ export const AppRoutes: Routes = [
       {
         path: 'news',
         loadChildren: './news/news.module#NewsModule'
+      },
+      {
+        path: 'articles',
+        loadChildren: './articles/articles.module#ArticlesModule'
       }
     ]
   }

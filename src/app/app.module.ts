@@ -26,6 +26,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import {AuthService} from '../services/AuthService';
+import {ArticlesCategoriesService} from '../services/ArticleCategoriesService';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import {AuthService} from '../services/AuthService';
     UserService,
     NewsService,
     ArticlesService,
+    ArticlesCategoriesService,
     GamesService,
     DevelopersService,
     TopicsService,
