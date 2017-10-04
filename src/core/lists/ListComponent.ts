@@ -1,11 +1,16 @@
 import {BaseService} from '../BaseService';
-import {OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AppState} from '../AppState';
 import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {UserRights, UserService} from '../../services/UserService';
 
+@Component({
+  moduleId: module.id,
+  templateUrl: 'list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
 export class ListComponent<T> implements OnInit {
   public currentPage = 1;
   public itemsPerPage = 10;

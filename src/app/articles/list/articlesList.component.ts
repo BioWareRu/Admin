@@ -1,5 +1,10 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {ListComponent, ListTableColumn, ListTableColumnAction, ListTableColumnType} from '../../../core/lists/ListComponent';
+import {Component} from '@angular/core';
+import {
+  ListComponent,
+  ListTableColumn,
+  ListTableColumnAction,
+  ListTableColumnType
+} from '../../../core/lists/ListComponent';
 import {Repository} from '../../../core/Repository';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AppState} from '../../../core/AppState';
@@ -8,9 +13,7 @@ import {Article} from '../../../models/Article';
 
 @Component({
   moduleId: module.id,
-  selector: 'articles-list',
-  templateUrl: '../../../core/lists/list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'articles-list'
 })
 export class ArticlesListComponent extends ListComponent<Article> {
 
