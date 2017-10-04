@@ -1,10 +1,10 @@
-import {BaseService} from './BaseService';
+import {BaseService} from '../BaseService';
 import {OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AppState} from './AppState';
+import {AppState} from '../AppState';
 import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {UserRights, UserService} from '../services/UserService';
+import {UserRights, UserService} from '../../services/UserService';
 
 export class ListComponent<T> implements OnInit {
   public currentPage = 1;

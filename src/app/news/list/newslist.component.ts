@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {ListComponent, ListTableColumn, ListTableColumnAction, ListTableColumnType} from '../../../core/ListComponent';
+import {ListComponent, ListTableColumn, ListTableColumnAction, ListTableColumnType} from '../../../core/lists/ListComponent';
 import {News} from '../../../models/News';
 import {Repository} from '../../../core/Repository';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -9,7 +9,7 @@ import {UserService} from '../../../services/UserService';
 @Component({
   moduleId: module.id,
   selector: 'newslist-cmp',
-  templateUrl: 'newslist.component.html',
+  templateUrl: '../../../core/lists/list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewsListComponent extends ListComponent<News> {
