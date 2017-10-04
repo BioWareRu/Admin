@@ -1,5 +1,5 @@
 import {ArticleCategory} from '../models/ArticleCategory';
-import {ListResult} from '../core/ListResult';
+import {ListResult} from '../core/lists/ListResult';
 import {JsonProperty} from 'json-object-mapper';
 
 export class ArticleCategoriesListResult extends ListResult<ArticleCategory> {

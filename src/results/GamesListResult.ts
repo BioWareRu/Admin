@@ -1,4 +1,4 @@
-import { ListResult } from '../core/ListResult';
+import { ListResult } from '../core/lists/ListResult';
 import { JsonProperty } from 'json-object-mapper';
 import { Game } from '../models/Game';
 export class GamesListResult extends ListResult<Game> {

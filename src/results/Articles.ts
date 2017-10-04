@@ -1,4 +1,4 @@
-import {ListResult} from '../core/ListResult';
+import {ListResult} from '../core/lists/ListResult';
 import {JsonProperty} from 'json-object-mapper';
 import {Article} from '../models/Article';
 import {SaveModelResponse} from '../core/forms/SaveModelResponse';

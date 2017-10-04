@@ -1,15 +1,19 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {ListComponent, ListTableColumn, ListTableColumnAction, ListTableColumnType} from '../../../core/lists/ListComponent';
+import {
+  ListComponent} from '../../../core/lists/ListComponent';
 import {News} from '../../../models/News';
 import {Repository} from '../../../core/Repository';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AppState} from '../../../core/AppState';
-import {UserService} from '../../../services/UserService';
+import {UserRights, UserService} from '../../../services/UserService';
+import {ListTableColumnType} from '../../../core/lists/ListEnums';
+import {ListTableColumnAction} from '../../../core/lists/ListTableColumnAction';
+import {ListTableColumn} from '../../../core/lists/ListTableColumn';
 
 @Component({
   moduleId: module.id,
-  selector: 'newslist-cmp',
-  templateUrl: '../../../core/lists/list.component.html',
+  selector: 'app-newslist-cmp',
+  templateUrl: './newslist.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewsListComponent extends ListComponent<News> {
@@ -19,12 +23,12 @@ export class NewsListComponent extends ListComponent<News> {
     this.title = 'Список новостей';
     this.cardTitle = 'Новости';
     this.cardIcon = 'assignment';
-    this.itemsPerPage = 20;
-    this.columns = [
+    this.provider.itemsPerPage = 20;
+    this.provider.columns = [
       new ListTableColumn<News>('id', '#').setSortable(),
       new ListTableColumn<News>('title', 'Заголовок').setSortable()
         .setLinkGetter(news => ['/news', news.id, 'edit'])
-        .setDisabled(!this.can(this.userRights.AddNews)),
+        .setDisabled(!this.can(UserRights.AddNews)),
       new ListTableColumn<News>('date', 'Дата', ListTableColumnType.TimeAgo).setSortable(),
       new ListTableColumn<News>('parent', 'Раздел').setCustomGetter((news) => news.parentName),
       new ListTableColumn<News>('authorId', 'Автор').setCustomGetter((news) => news.authorName).setSortable(),
