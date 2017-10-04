@@ -10,6 +10,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import {MomentModule} from 'angular2-moment';
 import {CKEditorModule} from 'ng2-ckeditor';
 import {BioFormsModule} from '../../core/forms/FormsModule';
+import {CoreModule} from '../../core/CoreModule';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {BioFormsModule} from '../../core/forms/FormsModule';
     MomentModule,
     NgxPaginationModule,
     CKEditorModule,
-    BioFormsModule
+    BioFormsModule,
+    CoreModule
   ]
 })
 export class ArticlesModule {

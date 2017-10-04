@@ -1,19 +1,20 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {
-  ListComponent,
-  ListTableColumn,
-  ListTableColumnAction,
-  ListTableColumnType
-} from '../../../core/lists/ListComponent';
+  ListComponent} from '../../../core/lists/ListComponent';
 import {Repository} from '../../../core/Repository';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AppState} from '../../../core/AppState';
-import {UserService} from '../../../services/UserService';
+import {UserRights, UserService} from '../../../services/UserService';
 import {Article} from '../../../models/Article';
+import {ListTableColumnType} from '../../../core/lists/ListEnums';
+import {ListTableColumnAction} from '../../../core/lists/ListTableColumnAction';
+import {ListTableColumn} from '../../../core/lists/ListTableColumn';
 
 @Component({
   moduleId: module.id,
-  selector: 'articles-list'
+  selector: 'app-articleslist-cmp',
+  templateUrl: './articlesList.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArticlesListComponent extends ListComponent<Article> {
 
@@ -22,12 +23,12 @@ export class ArticlesListComponent extends ListComponent<Article> {
     this.title = 'Список статей';
     this.cardTitle = 'Статьи';
     this.cardIcon = 'assignment';
-    this.itemsPerPage = 20;
-    this.columns = [
+    this.provider.itemsPerPage = 20;
+    this.provider.columns = [
       new ListTableColumn<Article>('id', '#').setSortable(),
       new ListTableColumn<Article>('title', 'Заголовок').setSortable()
         .setLinkGetter(article => ['/articles', article.id, 'edit'])
-        .setDisabled(!this.can(this.userRights.AddArticles)),
+        .setDisabled(!this.can(UserRights.AddArticles)),
       new ListTableColumn<Article>('date', 'Дата', ListTableColumnType.TimeAgo).setSortable(),
       new ListTableColumn<Article>('parent', 'Раздел').setCustomGetter((article) => article.parentName),
       new ListTableColumn<Article>('parent', 'Категория').setCustomGetter((article) => article.catName),

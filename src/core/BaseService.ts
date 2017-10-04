@@ -1,6 +1,6 @@
 import {Observable} from 'rxjs/Rx';
 import {RestClient} from './HttpClient';
-import {ListResult} from './ListResult';
+import {ListResult} from './lists/ListResult';
 
 export abstract class BaseService<T> {
 

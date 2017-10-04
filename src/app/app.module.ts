@@ -27,6 +27,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import {AuthService} from '../services/AuthService';
 import {ArticlesCategoriesService} from '../services/ArticleCategoriesService';
+import {CoreModule} from '../core/CoreModule';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {ArticlesCategoriesService} from '../services/ArticleCategoriesService';
     SidebarModule,
     NavbarModule,
     FooterModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    CoreModule
   ],
   providers: [
     RestClient,
