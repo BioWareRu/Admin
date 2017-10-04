@@ -17,30 +17,26 @@ export class AuthService {
     this.oauthService.clientId = environment.oauthClientId;
   }
 
-  protected static onTokenReceived(data) {
-    if (data.state) {
-      const state = JSON.parse(atob(data.state));
-      if (state.currentUrl) {
-        location.href = state.currentUrl;
-      }
-    }
-  }
-
   public login(additionalState?) {
-    this.oauthService.tryLogin({
-      onTokenReceived: (state) => AuthService.onTokenReceived(state)
-    }).then(() => {
+    this.oauthService.tryLogin().then(() => {
       if (!this.isLoggedIn()) {
+        localStorage.setItem('oauthReturnUrl', location.href);
         this.oauthService.initImplicitFlow(btoa(JSON.stringify(additionalState)));
       } else {
-        this._appState.notifyDataChanged('loggedIn', true);
+        const url = localStorage.getItem('oauthReturnUrl');
+        if (url) {
+          localStorage.removeItem('oauthReturnUrl');
+          location.href = url;
+        } else {
+          this._appState.notifyDataChanged('loggedIn', true);
+        }
       }
     });
   }
 
   public relogin() {
     this.oauthService.logOut();
-    this.login({currentUrl: location.href});
+    this.login();
   }
 
   public isLoggedIn() {

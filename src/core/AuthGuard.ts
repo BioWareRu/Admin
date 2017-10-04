@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         return this._userService.loadUser();
       }
     } else {
-      this._authService.login({'currentUrl': location.href});
+      this._authService.login();
     }
   }
 
