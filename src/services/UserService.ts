@@ -6,7 +6,7 @@ import {RestClient} from '../core/HttpClient';
 import {ObjectMapper} from 'json-object-mapper';
 import deserialize = ObjectMapper.deserialize;
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {ReplaySubject} from "rxjs/ReplaySubject";
+import {ReplaySubject} from 'rxjs/ReplaySubject';
 
 @Injectable()
 export class UserService {
@@ -17,7 +17,7 @@ export class UserService {
 
   private userLoaded = false;
 
-  private loading: Subject<boolean>;
+  private loading: ReplaySubject<boolean>;
 
   private userRights: UserRights[] = [];
 
