@@ -7,31 +7,21 @@ import {SettingsResolver} from '../../core/SettingsResolver';
 export const NewsRoutes: Routes = [
   {
     path: '',
-    children: [{
-      path: 'index',
-      component: NewsListComponent
-    }]
+    children: [
+      {
+        path: 'index',
+        component: NewsListComponent
+      },
+      {
+        path: 'add',
+        resolve: {settings: SettingsResolver},
+        component: NewsFormComponent
+      },
+      {
+        path: ':id/edit',
+        resolve: {settings: SettingsResolver},
+        component: NewsFormComponent
+      }
+    ]
   },
-  {
-    path: '',
-    children: [{
-      path: 'add',
-      resolve: {settings: SettingsResolver},
-      component: NewsFormComponent
-    }]
-  },
-  {
-    path: '',
-    children: [{
-      path: ':id/edit',
-      resolve: {settings: SettingsResolver},
-      component: NewsFormComponent
-    }]
-  }/*, {
-    path: '',
-    children: [{
-      path: 'wizard',
-      component: WizardComponent
-    }]
-  }*/
 ];
