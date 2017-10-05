@@ -6,6 +6,7 @@ import {RestClient} from '../core/HttpClient';
 import {ObjectMapper} from 'json-object-mapper';
 import deserialize = ObjectMapper.deserialize;
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {ReplaySubject} from "rxjs/ReplaySubject";
 
 @Injectable()
 export class UserService {
@@ -30,11 +31,12 @@ export class UserService {
 
   public loadUser(): Observable<boolean> {
     if (this.loading == null) {
-      this.loading = new Subject<boolean>();
+      this.loading = new ReplaySubject<boolean>();
       this._restClient.get('me', []).subscribe(x => {
         const user = deserialize(User, x['user']);
         this.userRights = x['rights'];
         this.user.next(user);
+        console.log('user loaded');
         this.loading.next(true);
       });
     }
