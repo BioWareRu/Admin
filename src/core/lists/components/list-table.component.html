@@ -33,7 +33,7 @@
               <span *ngIf="column.Type===provider.columnTypes.Link"><a [routerLink]="column.getLink(item)"
                                                                        [class.disabled]="column.Disabled">{{column.getValue(item)}}</a></span>
               <span
-                *ngIf="column.Type===provider.columnTypes.TimeAgo">{{(column.getValue(item)| amFromUnix) | amTimeAgo}}</span>
+                *ngIf="column.Type===provider.columnTypes.TimeAgo" title="{{column.getValue(item)| amFromUnix | amDateFormat:'DD MMMM YYYY, hh:mm:ss'}}">{{(column.getValue(item)| amFromUnix) | amTimeAgo}}</span>
               <span *ngIf="column.Type===provider.columnTypes.Actions">
                       <span *ngFor="let action of column.Actions">
                         <a *ngIf="action.Type===provider.actionTypes.Click" title="{{action.Title}}" href="javascript:;"
