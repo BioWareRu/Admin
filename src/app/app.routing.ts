@@ -2,14 +2,13 @@ import {Routes} from '@angular/router';
 
 import {AdminLayoutComponent} from './layouts/admin/admin-layout.component';
 import {AuthGuard} from '../core/AuthGuard';
-import {SettingsResolver} from '../core/SettingsResolver';
 
 export const AppRoutes: Routes = [
-  {
-    path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full',
-  },
+  /*  {
+      path: '',
+      redirectTo: 'dashboard',
+      pathMatch: 'full',
+    },*/
   {
     path: '',
     component: AdminLayoutComponent,
@@ -17,6 +16,11 @@ export const AppRoutes: Routes = [
     children: [
       {
         path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
+      },
+      {
+        path: 'dashboard',
         loadChildren: './dashboard/dashboard.module#DashboardModule'
       },
       {
