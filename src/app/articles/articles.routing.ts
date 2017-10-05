@@ -7,25 +7,21 @@ import {SettingsResolver} from '../../core/SettingsResolver';
 export const ArticlesRoutes: Routes = [
   {
     path: '',
-    children: [{
-      path: 'index',
-      component: ArticlesListComponent
-    }]
-  },
-  {
-    path: '',
-    children: [{
-      path: 'add',
-      resolve: {settings: SettingsResolver},
-      component: ArticleFormComponent
-    }]
-  },
-  {
-    path: '',
-    children: [{
-      path: ':id/edit',
-      resolve: {settings: SettingsResolver},
-      component: ArticleFormComponent
-    }]
+    children: [
+      {
+        path: 'index',
+        component: ArticlesListComponent
+      },
+      {
+        path: 'add',
+        resolve: {settings: SettingsResolver},
+        component: ArticleFormComponent
+      },
+      {
+        path: ':id/edit',
+        resolve: {settings: SettingsResolver},
+        component: ArticleFormComponent
+      }
+    ]
   }
 ];
