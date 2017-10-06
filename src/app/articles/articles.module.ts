@@ -3,6 +3,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {ArticlesRoutes} from './articles.routing';
 import {ArticlesListComponent} from './list/articlesList.component';
+import {ArticlesCatsListComponent} from './list/articlesCatsList.component';
 import {ArticleFormComponent} from './form/articleForm.component';
 import {RouterModule} from '@angular/router';
 import {Repository} from '../../core/Repository';
@@ -15,7 +16,8 @@ import {CoreModule} from '../../core/CoreModule';
 @NgModule({
   declarations: [
     ArticlesListComponent,
-    ArticleFormComponent
+    ArticleFormComponent,
+    ArticlesCatsListComponent
   ],
   providers: [
     Repository
