@@ -5,7 +5,7 @@ import {RestClient} from '../core/HttpClient';
 import {ObjectMapper} from 'json-object-mapper';
 import deserialize = ObjectMapper.deserialize;
 import {ArticleCategory} from '../models/ArticleCategory';
-import {ArticleCategoriesListResult} from '../results/ArticleCategories';
+import {ArticleCategoriesListResult, SaveArticleCategoryResponse} from '../results/ArticleCategories';
 
 @Injectable()
 export class ArticlesCategoriesService extends BaseService<ArticleCategory> {
@@ -22,14 +22,14 @@ export class ArticlesCategoriesService extends BaseService<ArticleCategory> {
   }
 
   add(item: any): Observable<any> {
-    return undefined;
+    return this.doAdd('articlesCats', item).map((res: Response) => deserialize(SaveArticleCategoryResponse, res));
   }
 
   update(id: number, item: any): Observable<any> {
-    return undefined;
+    return this.doUpdate('articlesCats', id, item).map((res: Response) => deserialize(SaveArticleCategoryResponse, res));
   }
 
-  delete(id: number): Observable<any> {
-    return undefined;
+  public delete(id: number): Observable<boolean> {
+    return this.doDelete('articlesCats', id).map((res: Response) => true);
   }
 }

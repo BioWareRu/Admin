@@ -12,12 +12,14 @@ import {MomentModule} from 'angular2-moment';
 import {CKEditorModule} from 'ng2-ckeditor';
 import {BioFormsModule} from '../../core/forms/FormsModule';
 import {CoreModule} from '../../core/CoreModule';
+import {ArticlesCatFormComponent} from './form/articlesCatForm.component';
 
 @NgModule({
   declarations: [
     ArticlesListComponent,
     ArticleFormComponent,
-    ArticlesCatsListComponent
+    ArticlesCatsListComponent,
+    ArticlesCatFormComponent
   ],
   providers: [
     Repository
