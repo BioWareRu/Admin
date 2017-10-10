@@ -15,6 +15,8 @@ export class ArticleCategory extends ChildWithCat<ArticleCategory> implements IC
   public parentName: string = undefined;
   @JsonProperty()
   public parentCatName: string = undefined;
+  @JsonProperty()
+  public title: string = undefined;
 
   createCat(): ArticleCategory {
     return new ArticleCategory;
