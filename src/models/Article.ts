@@ -1,7 +1,8 @@
-import {ChildWithCat} from './Child';
 import {JsonProperty} from 'json-object-mapper';
+import {ChildWithCat} from './base/ChildWithCat';
+import {ArticleCategory} from './ArticleCategory';
 
-export class Article extends ChildWithCat {
+export class Article extends ChildWithCat<ArticleCategory> {
   @JsonProperty()
   public id: number = undefined;
   @JsonProperty()
@@ -36,4 +37,8 @@ export class Article extends ChildWithCat {
   public catId: number = undefined;
   @JsonProperty()
   public catName: string = undefined;
+
+  createCat(): ArticleCategory {
+    return new ArticleCategory;
+  }
 }

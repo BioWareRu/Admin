@@ -8,9 +8,9 @@ import {BioFormControl} from '../../../core/forms/BioFormControl';
 import {SaveNewsResponse} from '../../../results/News';
 import {Utils} from '../../../core/Utils';
 import {ChildFormComponent} from '../../../core/FormComponent';
-import {Parent} from '../../../models/Parent';
 import {CustomValidators} from 'ng2-validation';
 import {AppState} from '../../../core/AppState';
+import {Parent} from '../../../models/base/Parent';
 
 @Component({
   moduleId: module.id,
