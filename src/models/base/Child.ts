@@ -1,9 +1,11 @@
-import {Parent, ParentType} from './Parent';
-import {Game} from './Game';
-import {Developer} from './Developer';
-import {Topic} from './Topic';
+import {Model} from './Model';
+import {Parent} from './Parent';
+import {ParentType} from './ParentType';
+import {Game} from '../Game';
+import {Developer} from '../Developer';
+import {Topic} from '../Topic';
 
-export abstract class Child {
+export abstract class Child extends Model {
 
   public gameId: number = undefined;
   public developerId: number = undefined;
@@ -57,60 +59,5 @@ export abstract class Child {
       default:
         break;
     }
-  }
-}
-
-export class Cat extends Child {
-  public id: number = undefined;
-  public title: number = undefined;
-  public pid: number = undefined;
-
-  private _parentCat: Cat;
-
-  get parentCat(): Cat {
-    if (this._parentCat) {
-      return this._parentCat;
-    }
-    if (this.pid > 0) {
-      const parentCat = new Cat();
-      parentCat.id = this.pid;
-      return parentCat;
-    }
-
-    return null;
-  }
-
-  set parentCat(parentCat: Cat) {
-    if (parentCat === null) {
-      return;
-    }
-    this._parentCat = parentCat;
-  }
-}
-
-export class ChildWithCat extends Child {
-  public catId: number = undefined;
-
-  private _cat: Cat;
-
-  get cat(): Cat {
-    if (this._cat) {
-      return this._cat;
-    }
-    if (this.catId > 0) {
-      const cat = new Cat();
-      cat.id = this.catId;
-      return cat;
-    }
-
-    return null;
-  }
-
-  set cat(cat: Cat) {
-    if (cat === null) {
-      return;
-    }
-    this._cat = cat;
-    this.catId = cat.id;
   }
 }

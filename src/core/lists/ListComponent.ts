@@ -4,8 +4,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AppState} from '../AppState';
 import {UserRights, UserService} from '../../services/UserService';
 import {ListProvider} from './ListProvider';
+import {Model} from '../../models/base/Model';
 
-export class ListComponent<T> implements OnInit {
+export class ListComponent<T extends Model> implements OnInit {
 
   public provider: ListProvider<T>;
 

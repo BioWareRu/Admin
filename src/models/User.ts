@@ -1,6 +1,7 @@
 import {JsonProperty} from 'json-object-mapper';
+import {Model} from './base/Model';
 
-export class User {
+export class User extends Model {
   @JsonProperty()
   public id: number = undefined;
   @JsonProperty()

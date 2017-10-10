@@ -1,4 +1,4 @@
-import {Model} from '../../models/Model';
+import {Model} from '../../models/base/Model';
 import {Subject} from 'rxjs/Subject';
 import {BaseService} from '../BaseService';
 import {ActivatedRoute, Router} from '@angular/router';
