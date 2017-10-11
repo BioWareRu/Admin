@@ -5,9 +5,9 @@ import {Developer} from '../models/Developer';
 import {Topic} from '../models/Topic';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
-import {Parent} from '../models/Parent';
-import {Child} from '../models/Child';
 import {Repository} from './Repository';
+import {Parent} from '../models/base/Parent';
+import {Child} from '../models/base/Child';
 
 export abstract class FormComponent<TModel, TResultModel> {
   public success = false;

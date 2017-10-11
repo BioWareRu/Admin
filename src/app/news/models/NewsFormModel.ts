@@ -1,5 +1,5 @@
 import {IFormModel} from '../../../models/forms/FormModel';
-import {Child} from '../../../models/Child';
+import {Child} from '../../../models/base/Child';
 
 export class NewsFormModel extends Child implements IFormModel {
   public title: string;

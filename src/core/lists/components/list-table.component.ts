@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Model} from '../../../models/Model';
+import {Model} from '../../../models/base/Model';
 import {ListProvider} from '../ListProvider';
 
 @Component({

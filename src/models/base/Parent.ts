@@ -1,10 +1,12 @@
-export abstract class Parent {
+import {Model} from './Model';
+import {ParentType} from './ParentType';
 
-  public id: any;
+export abstract class Parent extends Model {
   public abstract type: ParentType;
   public title: string;
 
   protected constructor(type: ParentType) {
+    super();
     this.type = type;
   }
 
@@ -13,11 +15,4 @@ export abstract class Parent {
   }
 
   public abstract getParentOption();
-
-}
-
-export enum ParentType {
-  Game = 1,
-  Developer = 2,
-  Topic = 3
 }
