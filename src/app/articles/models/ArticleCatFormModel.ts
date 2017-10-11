@@ -6,6 +6,7 @@ export class ArticlesCatFormModel extends ChildWithCat<ArticleCategory> implemen
     public title: string;
     public url: string;
     public descr: string;
+    public content: string;
 
     createCat(): ArticleCategory {
         return new ArticleCategory();

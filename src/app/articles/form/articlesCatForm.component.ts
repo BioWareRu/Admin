@@ -37,7 +37,7 @@ export class ArticlesCatFormComponent extends ChildFormComponent<ArticlesCatForm
                     this.loadFormDataWithCats();
                 });
             } else {
-                this._appState.notifyDataChanged('title', 'Добавление статьи');
+                this._appState.notifyDataChanged('title', 'Добавление категории');
                 this.isNew = true;
                 this.model = new ArticlesCatFormModel();
                 this.loadFormDataWithCats();
@@ -63,6 +63,7 @@ export class ArticlesCatFormComponent extends ChildFormComponent<ArticlesCatForm
             descr: new BioFormControl('', []),
             parent: new BioFormControl('', [<any>Validators.required]),
             cat: new BioFormControl('', []),
+            content: new BioFormControl('', []),
         };
     }
 
