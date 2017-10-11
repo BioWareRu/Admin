@@ -30,10 +30,12 @@ export const ArticlesRoutes: Routes = [
       },
       {
         path: 'cats/:id/edit',
+        resolve: {settings: SettingsResolver},
         component: ArticlesCatFormComponent
       },
       {
         path: 'cats/add',
+        resolve: {settings: SettingsResolver},
         component: ArticlesCatFormComponent
       }
     ]

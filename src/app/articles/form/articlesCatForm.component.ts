@@ -63,6 +63,7 @@ export class ArticlesCatFormComponent extends ChildFormComponent<ArticlesCatForm
             descr: new BioFormControl('', []),
             parent: new BioFormControl('', [<any>Validators.required]),
             cat: new BioFormControl('', []),
+            content: new BioFormControl('', []),
         };
     }
 
