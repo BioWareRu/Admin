@@ -8,4 +8,6 @@ export const ROUTES: RouteInfo[] = [
   {path: '/articles/add', title: 'Добавить', icon: 'material-icons'},
   {path: '/articles/cats', title: 'Категории', icon: 'material-icons'},
   {path: '/articles/cats/add', title: 'Добавить категорию', icon: 'material-icons'},
+  {path: '/gallery/cats', title: 'Категории', icon: 'material-icons'},
+  {path: '/gallery/cats/add', title: 'Добавить категорию', icon: 'material-icons'},
 ];
