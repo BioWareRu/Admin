@@ -111,7 +111,7 @@ export class GalleryCatFormComponent extends ChildFormComponent<GalleryCatFormMo
         if (items.length > 0) {
             group.options.push({
                 id: null,
-                title: 'Нет подкатегории'
+                title: 'Нет родительской категории'
             });
             items.forEach((item) => {
                 if (this.model.id !== item.id) {
