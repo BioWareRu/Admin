@@ -21,7 +21,7 @@ export abstract class ChildWithCat<TCat extends ICat> extends Child {
   }
 
   set cat(cat: TCat) {
-    if (cat === null) {
+    if (cat === null || cat.id === null) {
       return;
     }
     this._cat = cat;
