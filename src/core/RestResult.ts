@@ -1,12 +1,19 @@
 import {JsonProperty} from 'json-object-mapper';
 
 export class RestResult {
-    @JsonProperty()
-    public Code: number = undefined;
-    @JsonProperty()
-    public Errors: RestError[] = [];
+  @JsonProperty()
+  public code: number = undefined;
+  @JsonProperty()
+  public errors: RestError[] = [];
+  @JsonProperty()
+  public message: string = undefined;
+  @JsonProperty()
+  public isSuccess: boolean = undefined;
 }
 
-export interface RestError {
-    message: string;
+export class RestError {
+  @JsonProperty()
+  public message: string = undefined;
+  @JsonProperty()
+  public field: string = undefined;
 }

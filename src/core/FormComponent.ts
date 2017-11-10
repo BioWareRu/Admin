@@ -8,6 +8,10 @@ import 'rxjs/add/observable/forkJoin';
 import {Repository} from './Repository';
 import {Parent} from '../models/base/Parent';
 import {Child} from '../models/base/Child';
+import {HttpErrorResponse} from '@angular/common/http';
+import {ObjectMapper} from 'json-object-mapper';
+import {RestResult} from './RestResult';
+import deserialize = ObjectMapper.deserialize;
 
 export abstract class FormComponent<TModel, TResultModel> {
   public success = false;
@@ -21,16 +25,6 @@ export abstract class FormComponent<TModel, TResultModel> {
   public formGroup: FormGroup;
 
   public model: TModel;
-
-  protected abstract getFormGroupConfig(): { [key: string]: AbstractControl; };
-
-  protected abstract processSuccessSave(saveResult: TResultModel);
-
-  protected abstract doAdd(): Observable<TResultModel>;
-
-  protected abstract doUpdate(): Observable<TResultModel>;
-
-  protected abstract processChanges(changes);
 
   initForm() {
 
@@ -74,13 +68,6 @@ export abstract class FormComponent<TModel, TResultModel> {
     });
   }
 
-  protected updateControlValue(controlKey, value) {
-    if (!this.formGroup.controls.hasOwnProperty(controlKey)) {
-      return;
-    }
-    this.formGroup.controls[controlKey].setValue(value);
-  }
-
   public save() {
     this.success = false;
     this.hasChanges = false;
@@ -99,9 +86,26 @@ export abstract class FormComponent<TModel, TResultModel> {
     });
   }
 
-  protected handleSubmitError(response: any) {
+  protected abstract getFormGroupConfig(): { [key: string]: AbstractControl; };
+
+  protected abstract processSuccessSave(saveResult: TResultModel);
+
+  protected abstract doAdd(): Observable<TResultModel>;
+
+  protected abstract doUpdate(): Observable<TResultModel>;
+
+  protected abstract processChanges(changes);
+
+  protected updateControlValue(controlKey, value) {
+    if (!this.formGroup.controls.hasOwnProperty(controlKey)) {
+      return;
+    }
+    this.formGroup.controls[controlKey].setValue(value);
+  }
+
+  protected handleSubmitError(response: HttpErrorResponse) {
     if (response.status === 422) {
-      const data = response.error;
+      const data = deserialize(RestResult, JSON.parse(response.error));
       data.errors.forEach((error) => {
         (<BioFormControl>this.formGroup.controls[error.field]).ServerErrors.push(error.message);
         this.formGroup.controls[error.field].setErrors({'server': true});
@@ -114,13 +118,17 @@ export abstract class FormComponent<TModel, TResultModel> {
 }
 
 export abstract class ChildFormComponent<TModel extends Child, TSaveModel> extends FormComponent<TModel, TSaveModel> {
+  public parentOptGroups = [];
   private games: Game[] = [];
   private developers: Developer[] = [];
   private topics: Topic[] = [];
-  public parentOptGroups = [];
 
   constructor(protected repository: Repository) {
     super();
+  }
+
+  public compareParents(parent1: Parent, parent2: Parent) {
+    return parent1 && parent2 && parent1.type === parent2.type && parent1.id === parent2.id;
   }
 
   protected loadFormData() {
@@ -140,10 +148,6 @@ export abstract class ChildFormComponent<TModel extends Child, TSaveModel> exten
         this.afterInit();
       }
     );
-  }
-
-  public compareParents(parent1: Parent, parent2: Parent) {
-    return parent1 && parent2 && parent1.type === parent2.type && parent1.id === parent2.id;
   }
 
   private buildParents(label: string, items: Parent[]) {
