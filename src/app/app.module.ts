@@ -24,7 +24,6 @@ import {AuthGuard} from '../core/AuthGuard';
 import {SettingsResolver} from '../core/SettingsResolver';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {HttpModule} from '@angular/http';
 import {AuthService} from '../services/AuthService';
 import {ArticlesCategoriesService} from '../services/ArticleCategoriesService';
 import {CoreModule} from '../core/CoreModule';
@@ -39,7 +38,6 @@ import {CoreModule} from '../core/CoreModule';
     FormsModule,
     RouterModule.forRoot(AppRoutes),
     OAuthModule.forRoot(),
-    HttpModule,
     HttpClientModule,
     SidebarModule,
     NavbarModule,
