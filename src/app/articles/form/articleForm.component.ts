@@ -6,13 +6,12 @@ import {Observable} from 'rxjs/Observable';
 import {BioFormControl} from '../../../core/forms/BioFormControl';
 import {Utils} from '../../../core/Utils';
 import {ChildFormComponent} from '../../../core/FormComponent';
-import {Parent} from '../../../models/Parent';
 import {CustomValidators} from 'ng2-validation';
 import {AppState} from '../../../core/AppState';
 import {ArticlesFormModel} from '../models/ArticlesFormModel';
 import {SaveArticleResponse} from '../../../results/Articles';
 import {ArticleCategory} from '../../../models/ArticleCategory';
-import {Cat} from '../../../models/Child';
+import {Parent} from '../../../models/base/Parent';
 
 @Component({
   moduleId: module.id,
@@ -65,7 +64,7 @@ export class ArticleFormComponent extends ChildFormComponent<ArticlesFormModel, 
       title: new BioFormControl('', [<any>Validators.required]),
       url: new BioFormControl('', [<any>Validators.required]),
       source: new BioFormControl('', [<any>Validators.required, CustomValidators.url]),
-      announce: new BioFormControl('', []),
+      announce: new BioFormControl('', [<any>Validators.required]),
       text: new BioFormControl('', [<any>Validators.required]),
       parent: new BioFormControl('', [<any>Validators.required]),
       cat: new BioFormControl('', [<any>Validators.required]),
@@ -98,16 +97,6 @@ export class ArticleFormComponent extends ChildFormComponent<ArticlesFormModel, 
     }
   }
 
-  private buildParentCats(parent: Parent) {
-    const cats = [];
-    this.categories.forEach((cat) => {
-      if (Parent.isEqual(cat.parent, parent)) {
-        cats.push(cat);
-      }
-    });
-    this.buildCats('', cats);
-  }
-
   protected publish() {
     this.repository.ArticlesService.publish(this.articleId).subscribe((res: boolean) => {
       this.isPublished = res;
@@ -130,6 +119,16 @@ export class ArticleFormComponent extends ChildFormComponent<ArticlesFormModel, 
 
   protected canUnPublish(): boolean {
     return !this.isNew && this.isPublished;
+  }
+
+  private buildParentCats(parent: Parent) {
+    const cats = [];
+    this.categories.forEach((cat) => {
+      if (Parent.isEqual(cat.parent, parent)) {
+        cats.push(cat);
+      }
+    });
+    this.buildCats('', cats);
   }
 
   private loadFormDataWithCats() {
@@ -162,9 +161,5 @@ export class ArticleFormComponent extends ChildFormComponent<ArticlesFormModel, 
     }
     this.catOptGroups = [group];
     this.updateControlValue('cat', this.model.cat);
-  }
-
-  public compareCats(cat1: Cat, cat2: Cat) {
-    return cat1 && cat2 && cat1.id === cat2.id;
   }
 }

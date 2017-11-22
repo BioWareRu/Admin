@@ -1,5 +1,6 @@
-import { Parent, ParentType } from './Parent';
 import {JsonProperty} from 'json-object-mapper';
+import {ParentType} from './base/ParentType';
+import {Parent} from './base/Parent';
 
 export class Developer extends Parent {
 

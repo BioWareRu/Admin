@@ -1,5 +1,5 @@
 import {JsonProperty} from 'json-object-mapper';
-import {Child} from './Child';
+import {Child} from './base/Child';
 
 export class News extends Child {
     @JsonProperty()

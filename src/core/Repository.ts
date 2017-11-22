@@ -5,6 +5,7 @@ import { DevelopersService } from '../services/DevelopersService';
 import { TopicsService } from '../services/TopicsService';
 import { Injectable } from '@angular/core';
 import {ArticlesCategoriesService} from '../services/ArticleCategoriesService';
+import {GalleryCategoriesService} from '../services/GalleryCategoriesService';
 
 @Injectable()
 export class Repository {
@@ -13,7 +14,8 @@ export class Repository {
                      private _articleCategoriesService: ArticlesCategoriesService,
                      private _gamesService: GamesService,
                      private _developersService: DevelopersService,
-                     private _topicsService: TopicsService) {
+                     private _topicsService: TopicsService,
+                     private _galleryCategoriesService: GalleryCategoriesService) {
 
   }
 
@@ -39,5 +41,9 @@ export class Repository {
 
   get TopicsService(): TopicsService {
     return this._topicsService;
+  }
+
+  get GalleryCategoriesService(): GalleryCategoriesService {
+    return this._galleryCategoriesService;
   }
 }

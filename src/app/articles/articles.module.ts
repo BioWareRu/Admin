@@ -3,6 +3,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {ArticlesRoutes} from './articles.routing';
 import {ArticlesListComponent} from './list/articlesList.component';
+import {ArticlesCatsListComponent} from './list/articlesCatsList.component';
 import {ArticleFormComponent} from './form/articleForm.component';
 import {RouterModule} from '@angular/router';
 import {Repository} from '../../core/Repository';
@@ -11,11 +12,14 @@ import {MomentModule} from 'angular2-moment';
 import {CKEditorModule} from 'ng2-ckeditor';
 import {BioFormsModule} from '../../core/forms/FormsModule';
 import {CoreModule} from '../../core/CoreModule';
+import {ArticlesCatFormComponent} from './form/articlesCatForm.component';
 
 @NgModule({
   declarations: [
     ArticlesListComponent,
-    ArticleFormComponent
+    ArticleFormComponent,
+    ArticlesCatsListComponent,
+    ArticlesCatFormComponent
   ],
   providers: [
     Repository

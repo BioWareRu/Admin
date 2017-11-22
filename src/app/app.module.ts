@@ -27,6 +27,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthService} from '../services/AuthService';
 import {ArticlesCategoriesService} from '../services/ArticleCategoriesService';
 import {CoreModule} from '../core/CoreModule';
+import {GalleryCategoriesService} from '../services/GalleryCategoriesService';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import {CoreModule} from '../core/CoreModule';
     NewsService,
     ArticlesService,
     ArticlesCategoriesService,
+    GalleryCategoriesService,
     GamesService,
     DevelopersService,
     TopicsService,
