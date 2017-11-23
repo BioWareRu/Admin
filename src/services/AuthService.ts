@@ -15,6 +15,10 @@ export class AuthService {
     this.oauthService.redirectUri = window.location.origin;
     this.oauthService.scope = '';
     this.oauthService.clientId = environment.oauthClientId;
+
+    // refresh tokens
+    this.oauthService.silentRefreshRedirectUri = window.location.origin + '/silent-refresh.html';
+    this.oauthService.setupAutomaticSilentRefresh();
   }
 
   public login(additionalState?) {
