@@ -1,17 +1,18 @@
-import {AbstractControl, FormGroup} from '@angular/forms';
-import {BioFormControl} from './forms/BioFormControl';
-import {Game} from '../models/Game';
-import {Developer} from '../models/Developer';
-import {Topic} from '../models/Topic';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/forkJoin';
-import {Repository} from './Repository';
-import {Parent} from '../models/base/Parent';
-import {Child} from '../models/base/Child';
-import {HttpErrorResponse} from '@angular/common/http';
-import {ObjectMapper} from 'json-object-mapper';
-import {RestResult} from './RestResult';
+import { AbstractControl, FormGroup } from "@angular/forms";
+import { BioFormControl } from "./forms/BioFormControl";
+import { Game } from "../models/Game";
+import { Developer } from "../models/Developer";
+import { Topic } from "../models/Topic";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/forkJoin";
+import { Repository } from "./Repository";
+import { Parent } from "../models/base/Parent";
+import { Child } from "../models/base/Child";
+import { HttpErrorResponse } from "@angular/common/http";
+import { ObjectMapper } from "json-object-mapper";
+import { RestResult } from "./RestResult";
 import deserialize = ObjectMapper.deserialize;
+import { HostListener } from "@angular/core";
 
 export abstract class FormComponent<TModel, TResultModel> {
   public success = false;
@@ -27,7 +28,6 @@ export abstract class FormComponent<TModel, TResultModel> {
   public model: TModel;
 
   initForm() {
-
     this.formGroup = new FormGroup(this.getFormGroupConfig());
 
     // noinspection TsLint
@@ -38,6 +38,13 @@ export abstract class FormComponent<TModel, TResultModel> {
     this.subscribeToFormChanges();
 
     this.formLoaded = true;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  doSomething($event) {
+    if (this.hasChanges) {
+      $event.returnValue = 'Форма не была сохранена. Данные будут потеряны!';
+    }
   }
 
   subscribeToFormChanges() {
@@ -77,16 +84,19 @@ export abstract class FormComponent<TModel, TResultModel> {
     } else {
       result = this.doUpdate();
     }
-    result.subscribe((saveResult: TResultModel) => {
-      this.success = true;
-      this.processSuccessSave(saveResult);
-    }, e => {
-      this.hasErrors = true;
-      this.handleSubmitError(e);
-    });
+    result.subscribe(
+      (saveResult: TResultModel) => {
+        this.success = true;
+        this.processSuccessSave(saveResult);
+      },
+      e => {
+        this.hasErrors = true;
+        this.handleSubmitError(e);
+      }
+    );
   }
 
-  protected abstract getFormGroupConfig(): { [key: string]: AbstractControl; };
+  protected abstract getFormGroupConfig(): { [key: string]: AbstractControl };
 
   protected abstract processSuccessSave(saveResult: TResultModel);
 
@@ -106,18 +116,22 @@ export abstract class FormComponent<TModel, TResultModel> {
   protected handleSubmitError(response: HttpErrorResponse) {
     if (response.status === 422) {
       const data = deserialize(RestResult, JSON.parse(response.error));
-      data.errors.forEach((error) => {
-        (<BioFormControl>this.formGroup.controls[error.field]).ServerErrors.push(error.message);
-        this.formGroup.controls[error.field].setErrors({'server': true});
+      data.errors.forEach(error => {
+        (<BioFormControl>this.formGroup.controls[
+          error.field
+        ]).ServerErrors.push(error.message);
+        this.formGroup.controls[error.field].setErrors({ server: true });
       });
     }
   }
 
-  protected afterInit() {
-  }
+  protected afterInit() {}
 }
 
-export abstract class ChildFormComponent<TModel extends Child, TSaveModel> extends FormComponent<TModel, TSaveModel> {
+export abstract class ChildFormComponent<
+  TModel extends Child,
+  TSaveModel
+> extends FormComponent<TModel, TSaveModel> {
   public parentOptGroups = [];
   private games: Game[] = [];
   private developers: Developer[] = [];
@@ -128,7 +142,12 @@ export abstract class ChildFormComponent<TModel extends Child, TSaveModel> exten
   }
 
   public compareParents(parent1: Parent, parent2: Parent) {
-    return parent1 && parent2 && parent1.type === parent2.type && parent1.id === parent2.id;
+    return (
+      parent1 &&
+      parent2 &&
+      parent1.type === parent2.type &&
+      parent1.id === parent2.id
+    );
   }
 
   protected loadFormData() {
@@ -136,18 +155,16 @@ export abstract class ChildFormComponent<TModel extends Child, TSaveModel> exten
       this.repository.GamesService.getList(1, 100),
       this.repository.DevelopersService.getList(1, 100),
       this.repository.TopicsService.getList(1, 100)
-    ).subscribe(
-      res => {
-        this.games = res[0].data;
-        this.buildParents('Игры', this.games);
-        this.developers = res[1].data;
-        this.buildParents('Разработчики', this.developers);
-        this.topics = res[2].data;
-        this.buildParents('Темы', this.topics);
-        this.initForm();
-        this.afterInit();
-      }
-    );
+    ).subscribe(res => {
+      this.games = res[0].data;
+      this.buildParents("Игры", this.games);
+      this.developers = res[1].data;
+      this.buildParents("Разработчики", this.developers);
+      this.topics = res[2].data;
+      this.buildParents("Темы", this.topics);
+      this.initForm();
+      this.afterInit();
+    });
   }
 
   private buildParents(label: string, items: Parent[]) {
@@ -155,7 +172,7 @@ export abstract class ChildFormComponent<TModel extends Child, TSaveModel> exten
       label,
       options: []
     };
-    items.forEach((item) => {
+    items.forEach(item => {
       const option = item.getParentOption();
       if (!this.model.parent || Parent.isEqual(option, this.model.parent)) {
         this.model.parent = option;
