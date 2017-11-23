@@ -77,7 +77,6 @@ export abstract class FormComponent<TModel, TResultModel> {
 
   public save() {
     this.success = false;
-    this.hasChanges = false;
     let result;
     if (this.isNew) {
       result = this.doAdd();
@@ -86,6 +85,7 @@ export abstract class FormComponent<TModel, TResultModel> {
     }
     result.subscribe(
       (saveResult: TResultModel) => {
+        this.hasChanges = false;
         this.success = true;
         this.processSuccessSave(saveResult);
       },
