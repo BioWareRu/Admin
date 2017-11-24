@@ -1,18 +1,18 @@
-import { AbstractControl, FormGroup } from "@angular/forms";
-import { BioFormControl } from "./forms/BioFormControl";
-import { Game } from "../models/Game";
-import { Developer } from "../models/Developer";
-import { Topic } from "../models/Topic";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/forkJoin";
-import { Repository } from "./Repository";
-import { Parent } from "../models/base/Parent";
-import { Child } from "../models/base/Child";
-import { HttpErrorResponse } from "@angular/common/http";
-import { ObjectMapper } from "json-object-mapper";
-import { RestResult } from "./RestResult";
+import { AbstractControl, FormGroup } from '@angular/forms';
+import { BioFormControl } from './forms/BioFormControl';
+import { Game } from '../models/Game';
+import { Developer } from '../models/Developer';
+import { Topic } from '../models/Topic';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/forkJoin';
+import { Repository } from './Repository';
+import { Parent } from '../models/base/Parent';
+import { Child } from '../models/base/Child';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ObjectMapper } from 'json-object-mapper';
+import { RestResult } from './RestResult';
 import deserialize = ObjectMapper.deserialize;
-import { HostListener } from "@angular/core";
+import { HostListener } from '@angular/core';
 
 export abstract class FormComponent<TModel, TResultModel> {
   public success = false;
@@ -32,6 +32,9 @@ export abstract class FormComponent<TModel, TResultModel> {
 
     // noinspection TsLint
     for (const controlIndex in this.formGroup.controls) {
+      if (!this.formGroup.controls.hasOwnProperty(controlIndex)) {
+        continue;
+      }
       this.updateControlValue(controlIndex, this.model[controlIndex]);
     }
 
@@ -157,11 +160,11 @@ export abstract class ChildFormComponent<
       this.repository.TopicsService.getList(1, 100)
     ).subscribe(res => {
       this.games = res[0].data;
-      this.buildParents("Игры", this.games);
+      this.buildParents('Игры', this.games);
       this.developers = res[1].data;
-      this.buildParents("Разработчики", this.developers);
+      this.buildParents('Разработчики', this.developers);
       this.topics = res[2].data;
-      this.buildParents("Темы", this.topics);
+      this.buildParents('Темы', this.topics);
       this.initForm();
       this.afterInit();
     });
