@@ -36,7 +36,6 @@ export class UserService {
         const user = deserialize(User, x['user']);
         this.userRights = x['rights'];
         this.user.next(user);
-        console.log('user loaded');
         this.loading.next(true);
       });
     }
