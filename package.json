@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@angular/cli": "^1.6.5",
-    "@angular/compiler-cli": "^5.2.1",
+    "@angular/compiler-cli": "^7.0.0",
     "@angular/language-service": "^5.2.1",
     "@types/node": "^9.3.0",
     "codelyzer": "~4.1.0",
